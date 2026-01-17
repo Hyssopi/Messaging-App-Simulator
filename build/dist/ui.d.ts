@@ -1,0 +1,15 @@
+import { Choice, Side } from './model';
+export declare const chatContactName: HTMLDivElement;
+export declare const updateClock: () => void;
+export declare const updateBatteryLevel: (percent: number) => void;
+export declare const createNotification: (app: string, name: string, body: string, datetime: string) => void;
+export declare const addMessage: (name: string, side: Side, date: Date, text?: string, media?: string) => void;
+export declare const showTypingIndicator: (name: string) => void;
+export declare const hideTypingIndicator: (name: string) => void;
+export declare const addChatTimestamp: (name: string, date: Date) => void;
+export declare const addReaction: (name: string, emoji: string, lastMessageAgo?: number) => void;
+export declare const enableChoices: (name: string, choices: Choice[]) => void;
+export declare const startTypeWriter: (name: string, text: string, typingSpeedDelay?: number) => Promise<boolean>;
+export declare const startTypeWriterWithSubmit: (name: string, text: string, typingSpeedDelay?: number) => Promise<void>;
+export declare const addContact: (firstname: string, lastname: string, avatar: string) => string;
+export declare const renameContact: (oldName: string, firstname: string, lastname: string, avatar?: string) => string;

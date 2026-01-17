@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <link href="styles/styles.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Messages App Simulator</title>
+  </head>
+
+  <body>
+    <div class="messages-app-component">
+      <div class="phone-container">
+        <div class="status-bar">
+          <span id="clock" class="clock">12:00 PM</span>
+          <div class="status-bar-icons">
+            <span class="material-symbols-rounded">android_cell_4_bar</span>
+            <span class="material-symbols-sharp">wifi</span>
+            <span id="battery" class="material-symbols-outlined">battery_android_full</span>
+          </div>
+        </div>
+        <div class="screen-container">
+          <div id="settings-screen" class="screen">
+            <header class="main-header">
+              <button class="back-button" onclick="navigateSettingsBack()">
+                <span class="material-symbols-outlined">chevron_left</span>
+              </button>
+              <div class="main-header-center">Settings</div>
+            </header>
+            <div id="settings-list">
+              <ul class="settings-group">
+                <li class="setting-item">
+                  <span class="setting-item-text">Message Speed</span>
+                  <span id="setting-message-speed" class="setting-item-detail-text with-right-arrow">Unknown</span>
+                </li>
+              </ul>
+              <ul class="settings-group">
+                <li class="setting-item">
+                  <span class="setting-item-text">Tutorial</span>
+                  <input id="setting-tutorial-input" type="checkbox" class="toggle" checked>
+                </li>
+                <li class="setting-item">
+                  <span class="setting-item-text">Unit Tests</span>
+                  <input id="setting-unit-test-input" type="checkbox" class="toggle" checked>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div id="main-screen" class="screen active visible">
+            <header class="main-header">
+              <label id="main-header-edit">Edit</label>
+              <div class="main-header-center">Messages</div>
+            </header>
+            <div id="contact-list">
+            </div>
+          </div>
+          <div id="chat-screen" class="screen">
+            <header class="chat-header">
+              <button class="back-button" onclick="navigateChatBack()">
+                <span class="material-symbols-outlined">chevron_left</span>
+              </button>
+              <span id="unread-badge" class="badge"></span>
+              <div class="chat-header-contact">
+                <img id="chat-header-contact-avatar" class="avatar" alt="AA">
+                <div id="chat-header-contact-name"></div>
+              </div>
+            </header>
+            <div id="message-lists">
+            </div>
+            <div id="message-forms">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="image-overlay-container" class="overlay-container" onclick="hideImageOverlay()">
+        <img id="image-overlay-image" class="overlay-content">
+      </div>
+      <div id="video-overlay-container" class="overlay-container">
+        <video id="video-overlay-video" class="overlay-content" controls muted>
+          <source type="video/mp4">
+          <source type="video/webm">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div id="notification-container">
+      </div>
+    </div>
+  </body>
+
+  <!-- Core functionality -->
+  <script src="build/dist/model.js"></script>
+  <script src="build/dist/state.js"></script>
+  <script src="build/dist/utility.js"></script>
+  <script src="build/dist/ui.js"></script>
+  <script src="build/dist/api.js"></script>
+
+  <!-- Chapters -->
+  <script src="chapters/tutorial/tutorial.js"></script>
+  <script src="chapters/debug/unit-tests.js"></script>
+  <!-- Add new chapters here -->
+  <script src="chapters/template/template.js"></script>
+
+</html>
