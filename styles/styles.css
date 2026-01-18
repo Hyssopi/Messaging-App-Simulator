@@ -673,7 +673,7 @@ button:disabled {
   align-items: center;
   gap: 10px;
   position: fixed;
-  top: 20px;
+  top: 35px;
   left: 0px;
   user-select: none;
   pointer-events: none;

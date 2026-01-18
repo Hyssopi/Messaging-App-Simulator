@@ -1,10 +1,10 @@
 # Messaging App Simulator
 Narrative game engine in the format of iOS Messages App.
 
-<img src="images/splash1.png" width="25%" /> <img src="images/splash2.png" width="25%" /> <img src="images/splash3.png" width="25%" /> <img src="images/splash4.png" width="25%" />
+<img src="images/splash1.png" width="24%" /> <img src="images/splash2.png" width="24%" /> <img src="images/splash3.png" width="24%" /> <img src="images/splash4.png" width="24%" />
 
 ## Working Demo
-https://www.youtube.com/watch?v=gHan1uBmqHI
+https://www.youtube.com/watch?v=GZf1cyoUoys
 
 ## Try It Out
 https://hyssopi.github.io/Messaging-App-Simulator/

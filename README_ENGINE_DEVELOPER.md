@@ -47,4 +47,6 @@ We should not use `modules`, which is ES6. We also want to remove `export` and `
 Open `index.html` in a web browser (Firefox, Chrome, etc).
 
 ## Test
-Enable `Unit Tests` in the settings, then go to `Jane Doe` contact to start the tests.
+Enable `Unit Tests` in the settings, then go to `Jane Doe` contact to start the tests.  
+Side by side demo:  
+https://www.youtube.com/watch?v=4tdykQAxJmc
