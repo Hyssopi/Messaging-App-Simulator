@@ -195,7 +195,7 @@ const battery = (stages) => {
  * @param {string | undefined} avatar - Avatar icon src. Default to using initials icon if undefined.
  * @returns {string}
  * @example
- * const JaneDoe = contact('Jane', 'Doe', 'chapters/debug/images/sample-contact-01.png');
+ * const JaneDoe = contact('Jane', 'Doe', 'story/debug/images/sample-contact-01.png');
  */
 const contact = (firstname, lastname, avatar) => {
     return addContact(firstname, lastname, avatar !== null && avatar !== void 0 ? avatar : '');
@@ -214,7 +214,7 @@ const contact = (firstname, lastname, avatar) => {
  *   'Unknown Contact',
  *   'Brianna',
  *   'Brown',
- *   'chapters/debug/images/sample-contact-02.png',
+ *   'story/debug/images/sample-contact-02.png',
  * );
  */
 const rename = (oldName, firstname, lastname, avatar) => {
@@ -259,8 +259,8 @@ const textLeft = (text, name, duration) => __awaiter(void 0, void 0, void 0, fun
  * @param {MessageSpeed} duration - Simulate how long it takes to find/take the image/video. If undefined, then defaults to a fixed value.
  * @returns {Promise<void>}
  * @example
- * await mediaLeft('chapters/debug/images/Dog.jpg', JaneDoe);
- * await mediaLeft('chapters/debug/images/Cat.png', JaneDoe, INSTANT);
+ * await mediaLeft('story/debug/images/Dog.jpg', JaneDoe);
+ * await mediaLeft('story/debug/images/Cat.png', JaneDoe, INSTANT);
  */
 const mediaLeft = (media_1, name_1, ...args_1) => __awaiter(void 0, [media_1, name_1, ...args_1], void 0, function* (media, name, duration = SLOWEST) {
     if (media) {
@@ -316,9 +316,9 @@ const textRight = (text, name, duration, delay) => __awaiter(void 0, void 0, voi
  * @param {MessageSpeed} delay - Simulate how long it takes for the receiver to read this message. If undefined, then defaults to a fixed value.
  * @returns {Promise<void>}
  * @example
- * await mediaRight('chapters/debug/images/Dog.jpg', JaneDoe);
- * await mediaRight('chapters/debug/images/Cat.png', JaneDoe, INSTANT);
- * await mediaRight('chapters/debug/images/Cat.png', JaneDoe, undefined, INSTANT);
+ * await mediaRight('story/debug/images/Dog.jpg', JaneDoe);
+ * await mediaRight('story/debug/images/Cat.png', JaneDoe, INSTANT);
+ * await mediaRight('story/debug/images/Cat.png', JaneDoe, undefined, INSTANT);
  */
 const mediaRight = (media_2, name_2, ...args_2) => __awaiter(void 0, [media_2, name_2, ...args_2], void 0, function* (media, name, duration = SLOW, delay = SLOW) {
     if (media) {

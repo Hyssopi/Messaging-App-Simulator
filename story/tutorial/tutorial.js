@@ -1,7 +1,7 @@
 /* eslint-disable no-undef, @typescript-eslint/explicit-function-return-type */
 (async () => {
   // 1. Add Contact(s)
-  const TutorialGuide = contact('Tutorial', 'Guide', 'chapters/tutorial/images/tutorial-guide.png');
+  const TutorialGuide = contact('Tutorial', 'Guide', 'story/tutorial/images/tutorial-guide.png');
 
   // 2. (Optional) Wait for specific conditions (such as flags, etc), or when the player enters into this person's chat
   //await waitFor(() => hasFlag('test-flag'));
@@ -13,7 +13,7 @@
   // 4. (Optional) Add timestamp in chat
   timestamp(TutorialGuide);
 
-  // 5. Start the chapter
+  // 5. Start the story/chapter
 
   await textLeft(`Welcome!`, TutorialGuide);
   await textLeft(`I'm here to explain how to play... as quickly as possible!`, TutorialGuide);
@@ -34,7 +34,7 @@
 
   await textRight(`How can I view images?`, TutorialGuide);
   await textLeft(`Here is an example of an image:`, TutorialGuide);
-  await mediaLeft('chapters/debug/images/Cat.png', TutorialGuide, NORMAL);
+  await mediaLeft('story/debug/images/Cat.png', TutorialGuide, NORMAL);
   await textLeft(
     `Click on the image to get a better look at it.
 Then click anywhere or press the 'Esc' key to exit.`,
@@ -43,7 +43,7 @@ Then click anywhere or press the 'Esc' key to exit.`,
 
   await textRight(`How can I play videos?`, TutorialGuide);
   await textLeft(`Here is an example of a video:`, TutorialGuide);
-  await mediaLeft('chapters/debug/videos/mov_bbb.mp4', TutorialGuide, NORMAL);
+  await mediaLeft('story/debug/videos/mov_bbb.mp4', TutorialGuide, NORMAL);
   await textLeft(
     `Click on the video to play it.
 Then press the 'Esc' key to exit.`,

@@ -75,7 +75,7 @@ export declare const battery: (stages: number) => void;
  * @param {string | undefined} avatar - Avatar icon src. Default to using initials icon if undefined.
  * @returns {string}
  * @example
- * const JaneDoe = contact('Jane', 'Doe', 'chapters/debug/images/sample-contact-01.png');
+ * const JaneDoe = contact('Jane', 'Doe', 'story/debug/images/sample-contact-01.png');
  */
 export declare const contact: (firstname: string, lastname: string, avatar?: string) => string;
 /**
@@ -92,7 +92,7 @@ export declare const contact: (firstname: string, lastname: string, avatar?: str
  *   'Unknown Contact',
  *   'Brianna',
  *   'Brown',
- *   'chapters/debug/images/sample-contact-02.png',
+ *   'story/debug/images/sample-contact-02.png',
  * );
  */
 export declare const rename: (oldName: string, firstname: string, lastname: string, avatar?: string) => string;
@@ -124,8 +124,8 @@ export declare const textLeft: (text: string, name: string, duration?: MessageSp
  * @param {MessageSpeed} duration - Simulate how long it takes to find/take the image/video. If undefined, then defaults to a fixed value.
  * @returns {Promise<void>}
  * @example
- * await mediaLeft('chapters/debug/images/Dog.jpg', JaneDoe);
- * await mediaLeft('chapters/debug/images/Cat.png', JaneDoe, INSTANT);
+ * await mediaLeft('story/debug/images/Dog.jpg', JaneDoe);
+ * await mediaLeft('story/debug/images/Cat.png', JaneDoe, INSTANT);
  */
 export declare const mediaLeft: (media: string, name: string, duration?: MessageSpeed) => Promise<void>;
 /**
@@ -151,9 +151,9 @@ export declare const textRight: (text: string, name: string, duration?: MessageS
  * @param {MessageSpeed} delay - Simulate how long it takes for the receiver to read this message. If undefined, then defaults to a fixed value.
  * @returns {Promise<void>}
  * @example
- * await mediaRight('chapters/debug/images/Dog.jpg', JaneDoe);
- * await mediaRight('chapters/debug/images/Cat.png', JaneDoe, INSTANT);
- * await mediaRight('chapters/debug/images/Cat.png', JaneDoe, undefined, INSTANT);
+ * await mediaRight('story/debug/images/Dog.jpg', JaneDoe);
+ * await mediaRight('story/debug/images/Cat.png', JaneDoe, INSTANT);
+ * await mediaRight('story/debug/images/Cat.png', JaneDoe, undefined, INSTANT);
  */
 export declare const mediaRight: (media: string, name: string, duration?: MessageSpeed, delay?: MessageSpeed) => Promise<void>;
 /**

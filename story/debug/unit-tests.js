@@ -1,8 +1,8 @@
 /* eslint-disable no-undef, @typescript-eslint/explicit-function-return-type */
 (async () => {
   // 1. Add Contact(s)
-  const JaneDoe = contact('Jane', 'Doe', 'chapters/debug/images/sample-contact-01.png');
-  const SarahSmith = contact('Sarah', 'Smith', 'chapters/debug/images/sample-contact-02.png');
+  const JaneDoe = contact('Jane', 'Doe', 'story/debug/images/sample-contact-01.png');
+  const SarahSmith = contact('Sarah', 'Smith', 'story/debug/images/sample-contact-02.png');
 
   // 2. (Optional) Wait for specific conditions (such as flags, etc), or when the player enters into this person's chat
   //await waitFor(() => hasFlag('test-flag'));
@@ -14,7 +14,7 @@
   // 4. (Optional) Add timestamp in chat
   timestamp(JaneDoe);
 
-  // 5. Start the chapter
+  // 5. Start the story/chapter
 
   const enableSleepTest = true;
   const enableWaitForTest = true;
@@ -242,24 +242,24 @@
     await textLeft(`=====[START] Contact=====`, JaneDoe, INSTANT);
 
     await textLeft(`TEST: Adding contacts...`, JaneDoe, INSTANT);
-    contact('Repeatedly', 'Added', 'chapters/debug/images/sample-contact-01.png');
-    contact('Repeatedly', 'Added', 'chapters/debug/images/sample-contact-02.png');
-    contact('Repeatedly', 'Added', 'chapters/debug/images/sample-contact-03.png');
-    const RepeatedlyAdded = contact('Repeatedly', 'Added', 'chapters/debug/images/sample-contact-04.png');
+    contact('Repeatedly', 'Added', 'story/debug/images/sample-contact-01.png');
+    contact('Repeatedly', 'Added', 'story/debug/images/sample-contact-02.png');
+    contact('Repeatedly', 'Added', 'story/debug/images/sample-contact-03.png');
+    const RepeatedlyAdded = contact('Repeatedly', 'Added', 'story/debug/images/sample-contact-04.png');
     if (RepeatedlyAdded === 'Repeatedly Added') {
       await textLeft(`OK: 'Repeatedly Added' name is correct.`, JaneDoe, INSTANT);
     } else {
       await textLeft(`ERROR: RepeatedlyAdded is '${RepeatedlyAdded}'.`, JaneDoe, INSTANT);
       await sleep(20000);
     }
-    const DefaultContact = contact('Default', 'Contact', 'chapters/debug/images/default-contact.png');
+    const DefaultContact = contact('Default', 'Contact', 'story/debug/images/default-contact.png');
     if (DefaultContact === 'Default Contact') {
       await textLeft(`OK: 'Default Contact' name is correct.`, JaneDoe, INSTANT);
     } else {
       await textLeft(`ERROR: DefaultContact is '${DefaultContact}'.`, JaneDoe, INSTANT);
       await sleep(20000);
     }
-    const InvalidAvatar = contact('Invalid', 'Avatar', 'chapters/debug/images/invalid-avatar.png');
+    const InvalidAvatar = contact('Invalid', 'Avatar', 'story/debug/images/invalid-avatar.png');
     if (InvalidAvatar === 'Invalid Avatar') {
       await textLeft(`OK: 'Invalid Avatar' name is correct.`, JaneDoe, INSTANT);
     } else {
@@ -273,33 +273,33 @@
       await textLeft(`ERROR: NoAvatar is '${NoAvatar}'.`, JaneDoe, INSTANT);
       await sleep(20000);
     }
-    const Sample1 = contact('Sample', '1', 'chapters/debug/images/sample-contact-01.png');
+    const Sample1 = contact('Sample', '1', 'story/debug/images/sample-contact-01.png');
     if (Sample1 === 'Sample 1') {
       await textLeft(`OK: 'Sample 1' name is correct.`, JaneDoe, INSTANT);
     } else {
       await textLeft(`ERROR: Sample1 is '${Sample1}'.`, JaneDoe, INSTANT);
       await sleep(20000);
     }
-    contact('Sample', '2', 'chapters/debug/images/sample-contact-02.png');
-    contact('Sample', '3', 'chapters/debug/images/sample-contact-03.png');
-    contact('Sample', '4', 'chapters/debug/images/sample-contact-04.png');
-    contact('Valid Avatar', 'To Invalid Avatar', 'chapters/debug/images/sample-contact-01.png');
-    contact('Valid Avatar', 'To Invalid Avatar', 'chapters/debug/images/invalid-avatar.png');
-    contact('Valid Avatar', 'To No Avatar', 'chapters/debug/images/sample-contact-01.png');
+    contact('Sample', '2', 'story/debug/images/sample-contact-02.png');
+    contact('Sample', '3', 'story/debug/images/sample-contact-03.png');
+    contact('Sample', '4', 'story/debug/images/sample-contact-04.png');
+    contact('Valid Avatar', 'To Invalid Avatar', 'story/debug/images/sample-contact-01.png');
+    contact('Valid Avatar', 'To Invalid Avatar', 'story/debug/images/invalid-avatar.png');
+    contact('Valid Avatar', 'To No Avatar', 'story/debug/images/sample-contact-01.png');
     contact('Valid Avatar', 'To No Avatar');
     contact('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
-    contact('Test', '1', 'chapters/debug/images/sample-contact-01.png');
-    contact('Test', '2', 'chapters/debug/images/sample-contact-02.png');
-    contact('Test', '3', 'chapters/debug/images/sample-contact-03.png');
-    contact('Test', '4', 'chapters/debug/images/sample-contact-04.png');
-    contact('Test', '5', 'chapters/debug/images/sample-contact-01.png');
-    contact('Test', '6', 'chapters/debug/images/sample-contact-02.png');
-    contact('Test', '7', 'chapters/debug/images/sample-contact-03.png');
-    contact('Test', '8', 'chapters/debug/images/sample-contact-04.png');
-    contact('Test', '9', 'chapters/debug/images/sample-contact-01.png');
-    contact('Test', '10', 'chapters/debug/images/sample-contact-02.png');
-    contact('Test', '11', 'chapters/debug/images/sample-contact-03.png');
-    contact('Test', '12', 'chapters/debug/images/sample-contact-04.png');
+    contact('Test', '1', 'story/debug/images/sample-contact-01.png');
+    contact('Test', '2', 'story/debug/images/sample-contact-02.png');
+    contact('Test', '3', 'story/debug/images/sample-contact-03.png');
+    contact('Test', '4', 'story/debug/images/sample-contact-04.png');
+    contact('Test', '5', 'story/debug/images/sample-contact-01.png');
+    contact('Test', '6', 'story/debug/images/sample-contact-02.png');
+    contact('Test', '7', 'story/debug/images/sample-contact-03.png');
+    contact('Test', '8', 'story/debug/images/sample-contact-04.png');
+    contact('Test', '9', 'story/debug/images/sample-contact-01.png');
+    contact('Test', '10', 'story/debug/images/sample-contact-02.png');
+    contact('Test', '11', 'story/debug/images/sample-contact-03.png');
+    contact('Test', '12', 'story/debug/images/sample-contact-04.png');
     contact('123', '456');
     contact('123');
     contact('1');
@@ -344,7 +344,7 @@
       AfterRename,
       'After',
       'Rename With Avatar',
-      'chapters/debug/images/sample-contact-01.png',
+      'story/debug/images/sample-contact-01.png',
     );
     await textLeft(`Message from 'After Rename With Avatar'`, AfterRenameWithAvatar, INSTANT);
     await textRight(`Message to 'After Rename With Avatar'`, AfterRenameWithAvatar, INSTANT, INSTANT);
@@ -359,7 +359,7 @@
       AfterRenameWithAvatar,
       'After',
       'Rename With Invalid Avatar',
-      'chapters/debug/images/invalid-avatar.png',
+      'story/debug/images/invalid-avatar.png',
     );
     await textLeft(`Message from 'After Rename With Invalid Avatar'`, AfterRenameWithInvalidAvatar, INSTANT);
     await textRight(`Message to 'After Rename With Invalid Avatar'`, AfterRenameWithInvalidAvatar, INSTANT, INSTANT);
@@ -421,22 +421,22 @@ With new line.`,
     await textLeft(`=====[START] Received Media=====`, JaneDoe, INSTANT);
 
     await textLeft(`TEST: Received images...`, JaneDoe, INSTANT);
-    await mediaLeft('chapters/debug/images/Dog.jpg', JaneDoe);
-    await mediaLeft('chapters/debug/images/Cat.png', JaneDoe);
-    await mediaLeft('chapters/debug/images/Newtons_Cradle.gif', JaneDoe);
-    await mediaLeft('chapters/debug/images/invalid-image.png', JaneDoe);
-    await mediaLeft('chapters/debug/images/Dog.JPG', JaneDoe);
-    await mediaLeft('chapters/debug/images/Cat.PNG', JaneDoe);
-    await mediaLeft('chapters/debug/images/Newtons_Cradle.GIF', JaneDoe);
-    await mediaLeft('chapters/debug/images/invalid-image.PNG', JaneDoe);
+    await mediaLeft('story/debug/images/Dog.jpg', JaneDoe);
+    await mediaLeft('story/debug/images/Cat.png', JaneDoe);
+    await mediaLeft('story/debug/images/Newtons_Cradle.gif', JaneDoe);
+    await mediaLeft('story/debug/images/invalid-image.png', JaneDoe);
+    await mediaLeft('story/debug/images/Dog.JPG', JaneDoe);
+    await mediaLeft('story/debug/images/Cat.PNG', JaneDoe);
+    await mediaLeft('story/debug/images/Newtons_Cradle.GIF', JaneDoe);
+    await mediaLeft('story/debug/images/invalid-image.PNG', JaneDoe);
 
     await textLeft(`TEST: Received videos...`, JaneDoe, INSTANT);
-    await mediaLeft('chapters/debug/videos/mov_bbb.mp4', JaneDoe);
-    await mediaLeft('chapters/debug/videos/Schlossbergbahn.webm', JaneDoe);
-    await mediaLeft('chapters/debug/videos/invalid-video.mp4', JaneDoe);
-    await mediaLeft('chapters/debug/videos/mov_bbb.MP4', JaneDoe);
-    await mediaLeft('chapters/debug/videos/Schlossbergbahn.WEBM', JaneDoe);
-    await mediaLeft('chapters/debug/videos/invalid-video.MP4', JaneDoe);
+    await mediaLeft('story/debug/videos/mov_bbb.mp4', JaneDoe);
+    await mediaLeft('story/debug/videos/Schlossbergbahn.webm', JaneDoe);
+    await mediaLeft('story/debug/videos/invalid-video.mp4', JaneDoe);
+    await mediaLeft('story/debug/videos/mov_bbb.MP4', JaneDoe);
+    await mediaLeft('story/debug/videos/Schlossbergbahn.WEBM', JaneDoe);
+    await mediaLeft('story/debug/videos/invalid-video.MP4', JaneDoe);
 
     await textLeft(
       `TEST: Received invalid media: '.txt' file type.
@@ -444,24 +444,24 @@ Should print an error in console...`,
       JaneDoe,
       INSTANT,
     );
-    await mediaLeft('chapters/debug/images/invalid-file-type.txt', JaneDoe);
+    await mediaLeft('story/debug/images/invalid-file-type.txt', JaneDoe);
 
     await textLeft(`TEST: Received media with default duration...`, JaneDoe, INSTANT);
-    await mediaLeft('chapters/debug/images/Cat.png', JaneDoe);
+    await mediaLeft('story/debug/images/Cat.png', JaneDoe);
     await textLeft(`TEST: Received media with SLOWEST duration...`, JaneDoe, INSTANT);
-    await mediaLeft('chapters/debug/images/Cat.png', JaneDoe, SLOWEST);
+    await mediaLeft('story/debug/images/Cat.png', JaneDoe, SLOWEST);
     await textLeft(`TEST: Received media with SLOW duration...`, JaneDoe, INSTANT);
-    await mediaLeft('chapters/debug/images/Cat.png', JaneDoe, SLOW);
+    await mediaLeft('story/debug/images/Cat.png', JaneDoe, SLOW);
     await textLeft(`TEST: Received media with NORMAL duration...`, JaneDoe, INSTANT);
-    await mediaLeft('chapters/debug/images/Cat.png', JaneDoe, NORMAL);
+    await mediaLeft('story/debug/images/Cat.png', JaneDoe, NORMAL);
     await textLeft(`TEST: Received media with FAST duration...`, JaneDoe, INSTANT);
-    await mediaLeft('chapters/debug/images/Cat.png', JaneDoe, FAST);
+    await mediaLeft('story/debug/images/Cat.png', JaneDoe, FAST);
     await textLeft(`TEST: Received media with INSTANT duration...`, JaneDoe, INSTANT);
-    await mediaLeft('chapters/debug/images/Cat.png', JaneDoe, INSTANT);
+    await mediaLeft('story/debug/images/Cat.png', JaneDoe, INSTANT);
 
     await textLeft(`TEST: Received media from Sarah Smith...`, JaneDoe, INSTANT);
-    await mediaLeft('chapters/debug/images/Cat.png', SarahSmith, INSTANT);
-    await mediaLeft('chapters/debug/videos/mov_bbb.mp4', SarahSmith, INSTANT);
+    await mediaLeft('story/debug/images/Cat.png', SarahSmith, INSTANT);
+    await mediaLeft('story/debug/videos/mov_bbb.mp4', SarahSmith, INSTANT);
 
     await textRight(`=====[END] Received Media=====`, JaneDoe, INSTANT, INSTANT);
   } else {
@@ -510,22 +510,22 @@ With new line.`,
     await textLeft(`=====[START] Sent Media=====`, JaneDoe, INSTANT);
 
     await textLeft(`TEST: Sent images...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Dog.jpg', JaneDoe);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe);
-    await mediaRight('chapters/debug/images/Newtons_Cradle.gif', JaneDoe);
-    await mediaRight('chapters/debug/images/invalid-image.png', JaneDoe);
-    await mediaRight('chapters/debug/images/Dog.JPG', JaneDoe);
-    await mediaRight('chapters/debug/images/Cat.PNG', JaneDoe);
-    await mediaRight('chapters/debug/images/Newtons_Cradle.GIF', JaneDoe);
-    await mediaRight('chapters/debug/images/invalid-image.PNG', JaneDoe);
+    await mediaRight('story/debug/images/Dog.jpg', JaneDoe);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe);
+    await mediaRight('story/debug/images/Newtons_Cradle.gif', JaneDoe);
+    await mediaRight('story/debug/images/invalid-image.png', JaneDoe);
+    await mediaRight('story/debug/images/Dog.JPG', JaneDoe);
+    await mediaRight('story/debug/images/Cat.PNG', JaneDoe);
+    await mediaRight('story/debug/images/Newtons_Cradle.GIF', JaneDoe);
+    await mediaRight('story/debug/images/invalid-image.PNG', JaneDoe);
 
     await textLeft(`TEST: Sent videos...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/videos/mov_bbb.mp4', JaneDoe);
-    await mediaRight('chapters/debug/videos/Schlossbergbahn.webm', JaneDoe);
-    await mediaRight('chapters/debug/videos/invalid-video.mp4', JaneDoe);
-    await mediaRight('chapters/debug/videos/mov_bbb.MP4', JaneDoe);
-    await mediaRight('chapters/debug/videos/Schlossbergbahn.WEBM', JaneDoe);
-    await mediaRight('chapters/debug/videos/invalid-video.MP4', JaneDoe);
+    await mediaRight('story/debug/videos/mov_bbb.mp4', JaneDoe);
+    await mediaRight('story/debug/videos/Schlossbergbahn.webm', JaneDoe);
+    await mediaRight('story/debug/videos/invalid-video.mp4', JaneDoe);
+    await mediaRight('story/debug/videos/mov_bbb.MP4', JaneDoe);
+    await mediaRight('story/debug/videos/Schlossbergbahn.WEBM', JaneDoe);
+    await mediaRight('story/debug/videos/invalid-video.MP4', JaneDoe);
 
     await textLeft(
       `TEST: Sent invalid media: '.txt' file type.
@@ -533,37 +533,37 @@ Should print an error in console...`,
       JaneDoe,
       INSTANT,
     );
-    await mediaRight('chapters/debug/images/invalid-file-type.txt', JaneDoe);
+    await mediaRight('story/debug/images/invalid-file-type.txt', JaneDoe);
 
     await textLeft(`TEST: Sent media with SLOWEST duration...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe, SLOWEST);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe, SLOWEST);
     await textLeft(`TEST: Sent media with default duration...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe);
     await textLeft(`TEST: Sent media with SLOW duration...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe, SLOW);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe, SLOW);
     await textLeft(`TEST: Sent media with NORMAL duration...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe, NORMAL);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe, NORMAL);
     await textLeft(`TEST: Sent media with FAST duration...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe, FAST);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe, FAST);
     await textLeft(`TEST: Sent media with INSTANT duration...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe, INSTANT);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe, INSTANT);
 
     await textLeft(`TEST: Sent media with SLOWEST delay...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe, undefined, SLOWEST);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe, undefined, SLOWEST);
     await textLeft(`TEST: Sent media with default delay...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe);
     await textLeft(`TEST: Sent media with SLOW delay...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe, undefined, SLOW);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe, undefined, SLOW);
     await textLeft(`TEST: Sent media with NORMAL delay...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe, undefined, NORMAL);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe, undefined, NORMAL);
     await textLeft(`TEST: Sent media with FAST delay...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe, undefined, FAST);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe, undefined, FAST);
     await textLeft(`TEST: Sent media with INSTANT delay...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', JaneDoe, undefined, INSTANT);
+    await mediaRight('story/debug/images/Cat.png', JaneDoe, undefined, INSTANT);
 
     await textLeft(`TEST: Sending media to Sarah Smith...`, JaneDoe, INSTANT);
-    await mediaRight('chapters/debug/images/Cat.png', SarahSmith, INSTANT, INSTANT);
-    await mediaRight('chapters/debug/videos/mov_bbb.mp4', SarahSmith, INSTANT, INSTANT);
+    await mediaRight('story/debug/images/Cat.png', SarahSmith, INSTANT, INSTANT);
+    await mediaRight('story/debug/videos/mov_bbb.mp4', SarahSmith, INSTANT, INSTANT);
 
     await textRight(`=====[END] Sent Media=====`, JaneDoe, INSTANT, INSTANT);
   } else {
