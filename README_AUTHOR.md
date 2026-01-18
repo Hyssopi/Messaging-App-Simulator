@@ -16,6 +16,7 @@ Open `index.html` in a web browser (Firefox, Chrome, etc).
 
 3. Add the story into `index.html`:
 ```html
+<!-- Add new story here -->
 <script src="story/my-story/chapter-1.js"></script>
 ```
 4. Open `index.html` in a web browser or refresh the page
