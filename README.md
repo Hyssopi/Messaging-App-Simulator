@@ -1,13 +1,7 @@
 # Messaging App Simulator
 Narrative game engine in the format of iOS Messages App.
 
-![splash1](images/splash1.png)
-
-![splash2](images/splash2.png)
-
-![splash3](images/splash3.png)
-
-![splash4](images/splash4.png)
+<img src="images/splash1.png" width="25%" /> <img src="images/splash2.png" width="25%" /> <img src="images/splash3.png" width="25%" /> <img src="images/splash4.png" width="25%" />
 
 ## Working Demo
 https://www.youtube.com/watch?v=gHan1uBmqHI
