@@ -1,18 +1,18 @@
 # Messaging App Simulator for Engine Developers
-Add custom functionalities to the game engine.
+Add custom functionalities to the game engine.  
 Written in TypeScript/JavaScript, HTML, and CSS.
 
 ## Files
 1. `src/model.ts`
-  - Constants and types
+    - Constants and types
 1. `src/state.ts`
-  - Shared state throughout the application
+    - Shared state throughout the application
 1. `src/utility.ts`
-  - Miscellaneous functions unrelated to the UI
+    - Miscellaneous functions unrelated to the UI
 1. `src/ui.ts`
-  - Functionality that controls the UI
+    - Functionality that controls the UI
 1. `src/api.ts`
-  - Wrapper around `ui.ts` that describes the fully supported API that authors can and (should only) use
+    - Wrapper around `ui.ts` that describes the fully supported API that authors can and (should only) use
 
 ## Prerequisites
 `npm` required to build.
@@ -26,7 +26,7 @@ npm run lint
 npm run build
 ```
 Building transpiles code from TypeScript to JavaScript, specifically outputting into the `build/dist` folder.
-1. In each of the `build/dist/*.js` files, we must remove the keyword `export`, and delete the lines that have `import`.
+2. In each of the `build/dist/*.js` files, we must remove the keyword `export`, and delete the lines that have `import`.
 For example,
 Before:
 ```js
@@ -47,4 +47,4 @@ We should not use `modules`, which is ES6. We also want to remove `export` and `
 Open `index.html` in a web browser (Firefox, Chrome, etc).
 
 ## Test
-Enable `Unit Tests` in Settings, then go to `Jane Doe` contact to start the tests.
+Enable `Unit Tests` in the settings, then go to `Jane Doe` contact to start the tests.

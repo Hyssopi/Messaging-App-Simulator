@@ -399,7 +399,7 @@ button:disabled {
 .message-list {
   display: none;
   flex-direction: column;
-  padding: 10px 16px;
+  padding: 10px 16px 10px 20px;
 }
 
 .message-list.active {
