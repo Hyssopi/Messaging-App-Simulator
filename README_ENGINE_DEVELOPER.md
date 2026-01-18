@@ -28,7 +28,8 @@ npm run build
 Building transpiles code from TypeScript to JavaScript, specifically outputting into the `build/dist` folder.
 
 2. In each of the `build/dist/*.js` files, we must remove the keyword `export`, and delete the lines that have `import`.  
-For example,  
+For example,
+
 Before:
 ```js
 import { MessageSpeed } from './model';
@@ -38,11 +39,11 @@ After:
 ```js
 const player = {
 ```
-The reason is because we code in ES6, build in ES6, but we don't want to use ES6 in the output. That is because running `index.html` locally using `modules` will give CORS errors, for example:
+The reason is because we code in ES6, build in ES6, but we don't want to use ES6 in the output. That is because running `index.html` locally using `module` will give CORS errors, for example:
 ```html
 <script type="module" src="build/dist/model.js"></script>
 ```
-We should not use `modules`, which is ES6. We also want to remove `export` and `import`, which are also ES6. This way we can run `index.html` locally without having to create a server to host these files.
+We should not use `module`, which is ES6. We also want to remove `export` and `import`, which are also ES6. This way we can run `index.html` locally without having to create a server to host these files.
 
 ## Run
 Open `index.html` in a web browser (Firefox, Chrome, etc).

@@ -10,9 +10,10 @@ Open `index.html` in a web browser (Firefox, Chrome, etc).
 
 ## Add New Chapter
 1. Make a copy of the template folder: `chapters/template` and name the new copy. For example: `chapters/my-story`.
-1. Also rename the chapter file: `chapters/my-story/template.js`. For example: `chapters/my-story/my-story.js` or `chapters/my-story/chapter-1.js`
+1. Also rename the chapter file: `chapters/my-story/template.js`. For example: `chapters/my-story/my-story.js` or `chapters/my-story/chapter-1.js`.
 
 ![add-new-chapter](images/add-new-chapter.png)
+
 3. Add the chapter into `index.html`:
 ```html
 <script src="chapters/my-story/chapter-1.js"></script>
@@ -20,7 +21,7 @@ Open `index.html` in a web browser (Firefox, Chrome, etc).
 4. Open `index.html` in a web browser or refresh the page
 
 ## Usage Examples
-There are comprehensive examples in the tutorial and unit tests:
+There are comprehensive examples in the tutorial and unit tests located at:
 ```bash
 chapters/tutorial/tutorial.js
 chapters/debug/unit-tests.js
