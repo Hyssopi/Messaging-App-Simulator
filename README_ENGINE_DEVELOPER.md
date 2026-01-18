@@ -26,8 +26,9 @@ npm run lint
 npm run build
 ```
 Building transpiles code from TypeScript to JavaScript, specifically outputting into the `build/dist` folder.
-2. In each of the `build/dist/*.js` files, we must remove the keyword `export`, and delete the lines that have `import`.
-For example,
+
+2. In each of the `build/dist/*.js` files, we must remove the keyword `export`, and delete the lines that have `import`.  
+For example,  
 Before:
 ```js
 import { MessageSpeed } from './model';

@@ -13,7 +13,7 @@ Open `index.html` in a web browser (Firefox, Chrome, etc).
 1. Also rename the chapter file: `chapters/my-story/template.js`. For example: `chapters/my-story/my-story.js` or `chapters/my-story/chapter-1.js`
 
 ![add-new-chapter](images/add-new-chapter.png)
-1. Add the chapter into `index.html`:
+3. Add the chapter into `index.html`:
 ```html
 <script src="chapters/my-story/chapter-1.js"></script>
 ```
