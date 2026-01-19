@@ -28,7 +28,9 @@
   await textRight(`How can I fast forward?`, TutorialGuide);
   await reaction('👍', TutorialGuide, 1);
   await textLeft(
-    `Hold down 'Ctrl' on the keyboard to temporarily fast forward. Release the key to stop.`,
+    `To fast forward, you can:
+• Hold down 'Ctrl' on the keyboard to temporarily fast forward. Release the key to stop.
+• (Accessibility enabled) Click the fast forward button on the chat header at the top-right to toggle on/off`,
     TutorialGuide,
   );
 
@@ -46,7 +48,7 @@ Then click anywhere or press the 'Esc' key to exit.`,
   await mediaLeft('story/debug/videos/mov_bbb.mp4', TutorialGuide, NORMAL);
   await textLeft(
     `Click on the video to play it.
-Then press the 'Esc' key to exit.`,
+Then click on the 'X' button at the top-right or press the 'Esc' key to exit.`,
     TutorialGuide,
   );
 
@@ -56,7 +58,8 @@ Then press the 'Esc' key to exit.`,
   await textLeft(
     `The text input will turn yellow and you can choose between the choices using:
 • Up/down arrow keys on the keyboard
-• Mouse scroll wheel up/down`,
+• Mouse scroll wheel up/down
+• (Accessibility enabled) Click the up/down buttons on the chat header at the top-right`,
     TutorialGuide,
   );
   await choices(

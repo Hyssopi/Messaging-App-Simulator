@@ -33,4 +33,7 @@ const formatSpecificRelativeDate = (now, toDate) => {
         return date.toLocaleString(navigator.language, Object.assign({ weekday: 'long', month: 'long', day: 'numeric' }, timeOptions));
     }
 };
+const isMobile = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
 //# sourceMappingURL=utility.js.map

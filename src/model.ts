@@ -33,6 +33,7 @@ interface CurrentChoice {
 
 export interface Player {
   messageSpeed: MessageSpeed;
+  accessibility: boolean;
   showTutorial: boolean;
   showUnitTests: boolean;
   date: Date;

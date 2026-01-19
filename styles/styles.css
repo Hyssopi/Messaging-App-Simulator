@@ -389,6 +389,51 @@ button:disabled {
   margin: 0 auto;
 }
 
+#accessibility-controls {
+  display: none;
+  align-items: center;
+  gap: 2px;
+  position: absolute;
+  top: 12px;
+  right: 15px;
+}
+
+#accessibility-controls.visible {
+  display: flex;
+}
+
+.accessibility-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.accessibility-button {
+  display: flex;
+  align-self: center;
+  background-color: #007AFF;
+  color: white;
+  cursor: pointer;
+  border-radius: 20px;
+  border: none;
+}
+
+.accessibility-button:hover {
+  background-color: #004BC5;
+}
+
+.accessibility-choice-button {
+  padding: 0px 6px;
+}
+
+#accessibility-skip-button {
+  padding: 13px 2px;
+}
+
+#accessibility-skip-button.on {
+  color: yellow;
+}
+
 #message-lists {
   overflow-y: auto;
   scrollbar-width: none;
@@ -664,6 +709,28 @@ button:disabled {
   left: 50%;
   object-fit: contain;
   transform: translate(-50%, -50%);
+}
+
+.close-button {
+  display: flex;
+  align-self: center;
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  background-color: #007AFF;
+  color: white;
+  cursor: pointer;
+  border-radius: 15px;
+  border: none;
+  padding: 1% 1%;
+}
+
+.close-button:hover {
+  background-color: #004BC5;
+}
+
+.close-button span {
+  font-size: 200%;
 }
 
 #notification-container {

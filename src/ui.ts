@@ -1,12 +1,13 @@
 import { BATTERY_PERCENT_PER_STAGE, Choice, DEFAULT_TYPING_SPEED_DELAY, Side } from './model';
 import { player } from './state';
-import { formatRelativeTime, formatSpecificRelativeDate } from './utility';
+import { formatRelativeTime, formatSpecificRelativeDate, isMobile } from './utility';
 
 const clock = document.getElementById('clock') as HTMLSpanElement;
 const batteryIcon = document.getElementById('battery') as HTMLSpanElement;
 const settingsScreen = document.getElementById('settings-screen') as HTMLDivElement;
-const tutorialCheckbox = document.getElementById('setting-tutorial-input') as HTMLInputElement;
-const unitTestsCheckbox = document.getElementById('setting-unit-test-input') as HTMLInputElement;
+const accessibilityCheckbox = document.getElementById('setting-accessibility-checkbox') as HTMLInputElement;
+const tutorialCheckbox = document.getElementById('setting-tutorial-checkbox') as HTMLInputElement;
+const unitTestsCheckbox = document.getElementById('setting-unit-test-checkbox') as HTMLInputElement;
 const mainScreen = document.getElementById('main-screen') as HTMLDivElement;
 const editLabel = document.getElementById('main-header-edit') as HTMLLabelElement;
 const contactList = document.getElementById('contact-list') as HTMLDivElement;
@@ -14,6 +15,8 @@ const chatScreen = document.getElementById('chat-screen') as HTMLDivElement;
 const unreadBadge = document.getElementById('unread-badge') as HTMLSpanElement;
 const chatContactAvatar = document.getElementById('chat-header-contact-avatar') as HTMLImageElement;
 export const chatContactName = document.getElementById('chat-header-contact-name') as HTMLDivElement;
+const accessibilityControls = document.getElementById('accessibility-controls') as HTMLButtonElement;
+const accessibilitySkip = document.getElementById('accessibility-skip-button') as HTMLButtonElement;
 const messageLists = document.getElementById('message-lists') as HTMLDivElement;
 const messageForms = document.getElementById('message-forms') as HTMLDivElement;
 const imageOverlayContainer = document.getElementById('image-overlay-container') as HTMLDivElement;
@@ -450,6 +453,13 @@ const updateChoiceInput = (name: string, down: boolean): void => {
   }
 };
 
+const choiceChange = (down: boolean): void => {
+  const activeContactName = chatContactName.textContent;
+  if (activeContactName) {
+    updateChoiceInput(activeContactName, down);
+  }
+};
+
 export const startTypeWriter = (
   name: string,
   text: string,
@@ -721,6 +731,21 @@ const navigateChatBack = (): void => {
   }, 100);
 };
 
+const setSkipMode = (skip: boolean): void => {
+  player.skipMode = skip;
+
+  if (skip) {
+    accessibilitySkip.classList.add('on');
+  } else {
+    accessibilitySkip.classList.remove('on');
+  }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const toggleSkipMode = (): void => {
+  setSkipMode(!player.skipMode);
+};
+
 const toggleContactVisibility = (name: string, show: boolean): void => {
   for (const contactItem of contactList.children) {
     const contactName = (contactItem.querySelector('.contact-name') as HTMLDivElement).textContent;
@@ -745,7 +770,7 @@ const setupListeners = (): void => {
       getActiveMessageSend()?.click();
     }
     if (event.key === 'Control') {
-      player.skipMode = true;
+      setSkipMode(true);
 
       const activeContactName = chatContactName.textContent;
       if (activeContactName) {
@@ -757,23 +782,27 @@ const setupListeners = (): void => {
     }
     if (event.code === 'ArrowUp') {
       event.preventDefault();
-      const activeContactName = chatContactName.textContent;
-      if (activeContactName) {
-        updateChoiceInput(activeContactName, false);
-      }
+      choiceChange(false);
     }
     if (event.code === 'ArrowDown') {
       event.preventDefault();
-      const activeContactName = chatContactName.textContent;
-      if (activeContactName) {
-        updateChoiceInput(activeContactName, true);
-      }
+      choiceChange(true);
     }
   });
 
   document.addEventListener('keyup', (event) => {
     if (event.key === 'Control') {
-      player.skipMode = false;
+      setSkipMode(false);
+    }
+  });
+
+  accessibilityCheckbox.addEventListener('change', () => {
+    player.accessibility = accessibilityCheckbox.checked;
+
+    if (player.accessibility) {
+      accessibilityControls.classList.add('visible');
+    } else {
+      accessibilityControls.classList.remove('visible');
     }
   });
 
@@ -788,8 +817,10 @@ const setupListeners = (): void => {
     toggleContactVisibility('Sarah Smith', player.showUnitTests);
   });
 
+  accessibilityCheckbox.checked = isMobile();
   tutorialCheckbox.checked = player.showTutorial;
   unitTestsCheckbox.checked = player.showUnitTests;
+  accessibilityCheckbox.dispatchEvent(new Event('change'));
   tutorialCheckbox.dispatchEvent(new Event('change'));
   unitTestsCheckbox.dispatchEvent(new Event('change'));
 

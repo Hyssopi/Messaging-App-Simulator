@@ -35,15 +35,19 @@
                   <span class="setting-item-text">Message Speed</span>
                   <span id="setting-message-speed" class="setting-item-detail-text with-right-arrow">Unknown</span>
                 </li>
+                <li class="setting-item">
+                  <span class="setting-item-text">Accessibility</span>
+                  <input id="setting-accessibility-checkbox" type="checkbox" class="toggle" checked>
+                </li>
               </ul>
               <ul class="settings-group">
                 <li class="setting-item">
                   <span class="setting-item-text">Tutorial</span>
-                  <input id="setting-tutorial-input" type="checkbox" class="toggle" checked>
+                  <input id="setting-tutorial-checkbox" type="checkbox" class="toggle" checked>
                 </li>
                 <li class="setting-item">
                   <span class="setting-item-text">Unit Tests</span>
-                  <input id="setting-unit-test-input" type="checkbox" class="toggle" checked>
+                  <input id="setting-unit-test-checkbox" type="checkbox" class="toggle" checked>
                 </li>
               </ul>
             </div>
@@ -66,6 +70,19 @@
                 <img id="chat-header-contact-avatar" class="avatar" alt="AA">
                 <div id="chat-header-contact-name"></div>
               </div>
+              <div id="accessibility-controls">
+                <div class="accessibility-choice">
+                  <button class="accessibility-button accessibility-choice-button" onclick="choiceChange(false)">
+                    <span class="material-symbols-outlined">chevron_line_up</span>
+                  </button>
+                  <button class="accessibility-button accessibility-choice-button" onclick="choiceChange(true)">
+                    <span class="material-symbols-outlined" style="transform: rotate(180deg);">chevron_line_up</span>
+                  </button>
+                </div>
+                <button id="accessibility-skip-button" class="accessibility-button" onclick="toggleSkipMode()">
+                  <span class="material-symbols-outlined">fast_forward</span>
+                </button>
+              </div>
             </header>
             <div id="message-lists">
             </div>
@@ -83,6 +100,9 @@
           <source type="video/webm">
           Your browser does not support the video tag.
         </video>
+        <button class="close-button" onclick="hideVideoOverlay()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
       </div>
       <div id="notification-container">
       </div>

@@ -9,12 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 //import { BATTERY_PERCENT_PER_STAGE, DEFAULT_TYPING_SPEED_DELAY } from './model';
 //import { player } from './state';
-//import { formatRelativeTime, formatSpecificRelativeDate } from './utility';
+//import { formatRelativeTime, formatSpecificRelativeDate, isMobile } from './utility';
 const clock = document.getElementById('clock');
 const batteryIcon = document.getElementById('battery');
 const settingsScreen = document.getElementById('settings-screen');
-const tutorialCheckbox = document.getElementById('setting-tutorial-input');
-const unitTestsCheckbox = document.getElementById('setting-unit-test-input');
+const accessibilityCheckbox = document.getElementById('setting-accessibility-checkbox');
+const tutorialCheckbox = document.getElementById('setting-tutorial-checkbox');
+const unitTestsCheckbox = document.getElementById('setting-unit-test-checkbox');
 const mainScreen = document.getElementById('main-screen');
 const editLabel = document.getElementById('main-header-edit');
 const contactList = document.getElementById('contact-list');
@@ -22,6 +23,8 @@ const chatScreen = document.getElementById('chat-screen');
 const unreadBadge = document.getElementById('unread-badge');
 const chatContactAvatar = document.getElementById('chat-header-contact-avatar');
 const chatContactName = document.getElementById('chat-header-contact-name');
+const accessibilityControls = document.getElementById('accessibility-controls');
+const accessibilitySkip = document.getElementById('accessibility-skip-button');
 const messageLists = document.getElementById('message-lists');
 const messageForms = document.getElementById('message-forms');
 const imageOverlayContainer = document.getElementById('image-overlay-container');
@@ -400,6 +403,12 @@ const updateChoiceInput = (name, down) => {
         messageInput.focus();
     }
 };
+const choiceChange = (down) => {
+    const activeContactName = chatContactName.textContent;
+    if (activeContactName) {
+        updateChoiceInput(activeContactName, down);
+    }
+};
 const startTypeWriter = (name, text, typingSpeedDelay = DEFAULT_TYPING_SPEED_DELAY) => {
     return new Promise((resolve) => {
         const messageInput = document.getElementById(`${name}-message-input`);
@@ -623,6 +632,19 @@ const navigateChatBack = () => {
         chatContactName.textContent = null;
     }, 100);
 };
+const setSkipMode = (skip) => {
+    player.skipMode = skip;
+    if (skip) {
+        accessibilitySkip.classList.add('on');
+    }
+    else {
+        accessibilitySkip.classList.remove('on');
+    }
+};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const toggleSkipMode = () => {
+    setSkipMode(!player.skipMode);
+};
 const toggleContactVisibility = (name, show) => {
     for (const contactItem of contactList.children) {
         const contactName = contactItem.querySelector('.contact-name').textContent;
@@ -648,7 +670,7 @@ const setupListeners = () => {
             (_a = getActiveMessageSend()) === null || _a === void 0 ? void 0 : _a.click();
         }
         if (event.key === 'Control') {
-            player.skipMode = true;
+            setSkipMode(true);
             const activeContactName = chatContactName.textContent;
             if (activeContactName) {
                 const currentChoiceData = player.currentChoiceMap.get(activeContactName);
@@ -659,22 +681,25 @@ const setupListeners = () => {
         }
         if (event.code === 'ArrowUp') {
             event.preventDefault();
-            const activeContactName = chatContactName.textContent;
-            if (activeContactName) {
-                updateChoiceInput(activeContactName, false);
-            }
+            choiceChange(false);
         }
         if (event.code === 'ArrowDown') {
             event.preventDefault();
-            const activeContactName = chatContactName.textContent;
-            if (activeContactName) {
-                updateChoiceInput(activeContactName, true);
-            }
+            choiceChange(true);
         }
     });
     document.addEventListener('keyup', (event) => {
         if (event.key === 'Control') {
-            player.skipMode = false;
+            setSkipMode(false);
+        }
+    });
+    accessibilityCheckbox.addEventListener('change', () => {
+        player.accessibility = accessibilityCheckbox.checked;
+        if (player.accessibility) {
+            accessibilityControls.classList.add('visible');
+        }
+        else {
+            accessibilityControls.classList.remove('visible');
         }
     });
     tutorialCheckbox.addEventListener('change', () => {
@@ -686,8 +711,10 @@ const setupListeners = () => {
         toggleContactVisibility('Jane Doe', player.showUnitTests);
         toggleContactVisibility('Sarah Smith', player.showUnitTests);
     });
+    accessibilityCheckbox.checked = isMobile();
     tutorialCheckbox.checked = player.showTutorial;
     unitTestsCheckbox.checked = player.showUnitTests;
+    accessibilityCheckbox.dispatchEvent(new Event('change'));
     tutorialCheckbox.dispatchEvent(new Event('change'));
     unitTestsCheckbox.dispatchEvent(new Event('change'));
     editLabel.addEventListener('click', () => {
