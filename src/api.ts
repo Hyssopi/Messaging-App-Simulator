@@ -29,18 +29,6 @@ const MILLISECONDS_PER_CHAR: number = 25;
 const DURATION_TO_MINUTE_MULTIPLIER: number = 0.001;
 
 /**
- * Pause execution and wait for some time.
- *
- * @param {number} duration - The duration to pause, in milliseconds.
- * @returns {Promise<void>}
- * @example
- * await sleep(5000);
- */
-export const sleep = (duration: number): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, duration));
-};
-
-/**
  * Pause execution and wait until a specific condition is true.
  *
  * @param {function(): boolean} predicate - The specific condition that must be true for the execution to continue.
@@ -166,6 +154,18 @@ export const setGlobalMessageSpeed = (messageSpeed: MessageSpeed = NORMAL): void
 };
 
 /**
+ * Pause execution and wait for some time. Adjusted with Global Message Speed.
+ *
+ * @param {number} duration - The duration to pause, in milliseconds.
+ * @returns {Promise<void>}
+ * @example
+ * await sleep(5000);
+ */
+export const sleep = (duration: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, duration * getGlobalMessageSpeedMultiplier()));
+};
+
+/**
  * Set date and time.
  *
  * @param {number} year - The year, for example: 2025.
@@ -274,7 +274,7 @@ export const textLeft = async (text: string, name: string, duration?: MessageSpe
   if (text) {
     showTypingIndicator(name);
     const computedDuration = duration ?? text.length * MILLISECONDS_PER_CHAR;
-    await sleep(computedDuration * getGlobalMessageSpeedMultiplier());
+    await sleep(computedDuration);
 
     addMinutes(computedDuration * DURATION_TO_MINUTE_MULTIPLIER);
     hideTypingIndicator(name);
@@ -295,7 +295,7 @@ export const textLeft = async (text: string, name: string, duration?: MessageSpe
  */
 export const mediaLeft = async (media: string, name: string, duration: MessageSpeed = SLOWEST): Promise<void> => {
   if (media) {
-    await sleep(duration * getGlobalMessageSpeedMultiplier());
+    await sleep(duration);
 
     addMinutes(duration * DURATION_TO_MINUTE_MULTIPLIER);
     addMessage(name, 'received', player.date, undefined, media);
@@ -345,7 +345,7 @@ export const textRight = async (
     const computedDuration = duration ?? text.length * MILLISECONDS_PER_CHAR;
     addMinutes(computedDuration * DURATION_TO_MINUTE_MULTIPLIER);
     const computedDelay = delay ?? text.length * 15;
-    await sleep(computedDelay * getGlobalMessageSpeedMultiplier());
+    await sleep(computedDelay);
 
     addMinutes(computedDelay * DURATION_TO_MINUTE_MULTIPLIER);
   }
@@ -373,11 +373,11 @@ export const mediaRight = async (
   if (media) {
     await waitFor(() => activeContactName() === name);
 
-    await sleep(duration * getGlobalMessageSpeedMultiplier());
+    await sleep(duration);
 
     addMinutes(duration * DURATION_TO_MINUTE_MULTIPLIER);
     addMessage(name, 'sent', player.date, undefined, media);
-    await sleep(delay * getGlobalMessageSpeedMultiplier());
+    await sleep(delay);
 
     addMinutes(delay * DURATION_TO_MINUTE_MULTIPLIER);
   }
@@ -403,7 +403,7 @@ export const reaction = async (
   lastMessageAgo: number = 0,
   duration: MessageSpeed = NORMAL,
 ): Promise<void> => {
-  await sleep(duration * getGlobalMessageSpeedMultiplier());
+  await sleep(duration);
 
   addMinutes(duration * DURATION_TO_MINUTE_MULTIPLIER);
   addReaction(name, emoji, lastMessageAgo);
@@ -413,12 +413,14 @@ export const reaction = async (
  * Add a timestamp to the chat.
  *
  * @param {string} name - Full name of the chat to insert the timestamp to.
+ * @param {string | undefined} fixedText - The custom text to put in the timestamp instead of the default datetime.
  * @returns {void}
  * @example
  * timestamp(JaneDoe);
+ * timestamp(JaneDoe, 'A few hours later, at night...');
  */
-export const timestamp = (name: string): void => {
-  addChatTimestamp(name, player.date);
+export const timestamp = (name: string, fixedText?: string): void => {
+  addChatTimestamp(name, player.date, fixedText);
 };
 
 /**

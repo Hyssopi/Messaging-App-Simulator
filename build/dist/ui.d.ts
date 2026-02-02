@@ -6,7 +6,7 @@ export declare const createNotification: (app: string, name: string, body: strin
 export declare const addMessage: (name: string, side: Side, date: Date, text?: string, media?: string) => void;
 export declare const showTypingIndicator: (name: string) => void;
 export declare const hideTypingIndicator: (name: string) => void;
-export declare const addChatTimestamp: (name: string, date: Date) => void;
+export declare const addChatTimestamp: (name: string, date: Date, fixedText?: string) => void;
 export declare const addReaction: (name: string, emoji: string, lastMessageAgo?: number) => void;
 export declare const enableChoices: (name: string, choices: Choice[]) => void;
 export declare const startTypeWriter: (name: string, text: string, typingSpeedDelay?: number) => Promise<boolean>;

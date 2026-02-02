@@ -6,6 +6,7 @@ const clock = document.getElementById('clock') as HTMLSpanElement;
 const batteryIcon = document.getElementById('battery') as HTMLSpanElement;
 const settingsScreen = document.getElementById('settings-screen') as HTMLDivElement;
 const accessibilityCheckbox = document.getElementById('setting-accessibility-checkbox') as HTMLInputElement;
+const relativeTimestampCheckbox = document.getElementById('setting-relative-timestamp-checkbox') as HTMLInputElement;
 const tutorialCheckbox = document.getElementById('setting-tutorial-checkbox') as HTMLInputElement;
 const unitTestsCheckbox = document.getElementById('setting-unit-test-checkbox') as HTMLInputElement;
 const mainScreen = document.getElementById('main-screen') as HTMLDivElement;
@@ -55,7 +56,11 @@ const updateTimestamps = (): void => {
   chatTimeElements.forEach((element) => {
     const datetime = element.getAttribute('datetime');
     if (datetime) {
-      element.textContent = formatSpecificRelativeDate(player.date, datetime);
+      if (player.relativeTimestamp) {
+        element.textContent = formatSpecificRelativeDate(player.date, datetime);
+      } else {
+        element.textContent = (element as HTMLTimeElement).title;
+      }
     }
   });
 };
@@ -363,14 +368,16 @@ export const hideTypingIndicator = (name: string): void => {
   typingIndicator.classList.remove('visible');
 };
 
-export const addChatTimestamp = (name: string, date: Date): void => {
+export const addChatTimestamp = (name: string, date: Date, fixedText?: string): void => {
   const currentAtBottom = atBottom();
 
   const timestamp = document.createElement('time') as HTMLTimeElement;
   timestamp.classList.add('chat-timestamp');
-  timestamp.textContent = 'now';
   timestamp.title = timeTooltipFormatter.format(date);
-  timestamp.setAttribute('datetime', date.toISOString());
+  timestamp.textContent = fixedText ?? 'now';
+  if (!fixedText) {
+    timestamp.setAttribute('datetime', date.toISOString());
+  }
 
   const messageList = document.getElementById(`${name}-message-list`) as HTMLDivElement;
   messageList.appendChild(timestamp);
@@ -806,6 +813,11 @@ const setupListeners = (): void => {
     }
   });
 
+  relativeTimestampCheckbox.addEventListener('change', () => {
+    player.relativeTimestamp = relativeTimestampCheckbox.checked;
+    updateTimestamps();
+  });
+
   tutorialCheckbox.addEventListener('change', () => {
     player.showTutorial = tutorialCheckbox.checked;
     toggleContactVisibility('Tutorial Guide', player.showTutorial);
@@ -818,9 +830,11 @@ const setupListeners = (): void => {
   });
 
   accessibilityCheckbox.checked = isMobile();
+  relativeTimestampCheckbox.checked = player.relativeTimestamp;
   tutorialCheckbox.checked = player.showTutorial;
   unitTestsCheckbox.checked = player.showUnitTests;
   accessibilityCheckbox.dispatchEvent(new Event('change'));
+  relativeTimestampCheckbox.dispatchEvent(new Event('change'));
   tutorialCheckbox.dispatchEvent(new Event('change'));
   unitTestsCheckbox.dispatchEvent(new Event('change'));
 

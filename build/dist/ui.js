@@ -14,6 +14,7 @@ const clock = document.getElementById('clock');
 const batteryIcon = document.getElementById('battery');
 const settingsScreen = document.getElementById('settings-screen');
 const accessibilityCheckbox = document.getElementById('setting-accessibility-checkbox');
+const relativeTimestampCheckbox = document.getElementById('setting-relative-timestamp-checkbox');
 const tutorialCheckbox = document.getElementById('setting-tutorial-checkbox');
 const unitTestsCheckbox = document.getElementById('setting-unit-test-checkbox');
 const mainScreen = document.getElementById('main-screen');
@@ -59,7 +60,12 @@ const updateTimestamps = () => {
     chatTimeElements.forEach((element) => {
         const datetime = element.getAttribute('datetime');
         if (datetime) {
-            element.textContent = formatSpecificRelativeDate(player.date, datetime);
+            if (player.relativeTimestamp) {
+                element.textContent = formatSpecificRelativeDate(player.date, datetime);
+            }
+            else {
+                element.textContent = element.title;
+            }
         }
     });
 };
@@ -329,13 +335,15 @@ const hideTypingIndicator = (name) => {
     const typingIndicator = messageList.querySelector('.typing-indicator.received');
     typingIndicator.classList.remove('visible');
 };
-const addChatTimestamp = (name, date) => {
+const addChatTimestamp = (name, date, fixedText) => {
     const currentAtBottom = atBottom();
     const timestamp = document.createElement('time');
     timestamp.classList.add('chat-timestamp');
-    timestamp.textContent = 'now';
     timestamp.title = timeTooltipFormatter.format(date);
-    timestamp.setAttribute('datetime', date.toISOString());
+    timestamp.textContent = fixedText !== null && fixedText !== void 0 ? fixedText : 'now';
+    if (!fixedText) {
+        timestamp.setAttribute('datetime', date.toISOString());
+    }
     const messageList = document.getElementById(`${name}-message-list`);
     messageList.appendChild(timestamp);
     updateTimestamps();
@@ -702,6 +710,10 @@ const setupListeners = () => {
             accessibilityControls.classList.remove('visible');
         }
     });
+    relativeTimestampCheckbox.addEventListener('change', () => {
+        player.relativeTimestamp = relativeTimestampCheckbox.checked;
+        updateTimestamps();
+    });
     tutorialCheckbox.addEventListener('change', () => {
         player.showTutorial = tutorialCheckbox.checked;
         toggleContactVisibility('Tutorial Guide', player.showTutorial);
@@ -712,9 +724,11 @@ const setupListeners = () => {
         toggleContactVisibility('Sarah Smith', player.showUnitTests);
     });
     accessibilityCheckbox.checked = isMobile();
+    relativeTimestampCheckbox.checked = player.relativeTimestamp;
     tutorialCheckbox.checked = player.showTutorial;
     unitTestsCheckbox.checked = player.showUnitTests;
     accessibilityCheckbox.dispatchEvent(new Event('change'));
+    relativeTimestampCheckbox.dispatchEvent(new Event('change'));
     tutorialCheckbox.dispatchEvent(new Event('change'));
     unitTestsCheckbox.dispatchEvent(new Event('change'));
     editLabel.addEventListener('click', () => {

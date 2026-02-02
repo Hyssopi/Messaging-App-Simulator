@@ -16,9 +16,9 @@
 
   // 5. Start the story/chapter
 
-  const enableSleepTest = true;
   const enableWaitForTest = true;
   const enableMessageSpeedTest = true;
+  const enableSleepTest = true;
   const enableClockTest = true;
   const enableBatteryTest = true;
   const enableContactTest = true;
@@ -32,23 +32,6 @@
   const enableChoiceTest = true;
   const enableFlagTest = true;
   const enableNotificationTest = true;
-
-  if (enableSleepTest) {
-    await textLeft(`=====[START] Sleep=====`, JaneDoe, INSTANT);
-
-    await textLeft(`TEST: Sleep for 5 seconds...`, JaneDoe, INSTANT);
-    await sleep(5000);
-    await textLeft(`TEST: Sleep for 2 seconds...`, JaneDoe, INSTANT);
-    await sleep(2000);
-    await textLeft(`TEST: Sleep for 0 seconds...`, JaneDoe, INSTANT);
-    await sleep(0);
-    await textLeft(`TEST: Sleep for negative seconds...`, JaneDoe, INSTANT);
-    await sleep(-1000);
-
-    await textRight(`=====[END] Sleep=====`, JaneDoe, INSTANT, INSTANT);
-  } else {
-    await textLeft(`=====[SKIP] Sleep=====`, JaneDoe, INSTANT);
-  }
 
   if (enableWaitForTest) {
     await textLeft(`=====[START] Wait For=====`, JaneDoe, INSTANT);
@@ -142,6 +125,23 @@
     await textLeft(`=====[SKIP] Message Speed=====`, JaneDoe, INSTANT);
   }
 
+  if (enableSleepTest) {
+    await textLeft(`=====[START] Sleep=====`, JaneDoe, INSTANT);
+
+    await textLeft(`TEST: Sleep for 5 seconds...`, JaneDoe, INSTANT);
+    await sleep(5000);
+    await textLeft(`TEST: Sleep for 2 seconds...`, JaneDoe, INSTANT);
+    await sleep(2000);
+    await textLeft(`TEST: Sleep for 0 seconds...`, JaneDoe, INSTANT);
+    await sleep(0);
+    await textLeft(`TEST: Sleep for negative seconds...`, JaneDoe, INSTANT);
+    await sleep(-1000);
+
+    await textRight(`=====[END] Sleep=====`, JaneDoe, INSTANT, INSTANT);
+  } else {
+    await textLeft(`=====[SKIP] Sleep=====`, JaneDoe, INSTANT);
+  }
+
   if (enableClockTest) {
     await textLeft(`=====[START] Clock=====`, JaneDoe, INSTANT);
 
@@ -184,8 +184,13 @@
     await textLeft(`TEST: Clock set to: Saturday, November 1 at 1:30 PM`, JaneDoe, SLOWEST);
     setClock(2025, 10, 1, 13, 30);
     timestamp(JaneDoe);
+    await textLeft(`TEST: Clock set to: Saturday, November 1 at 6:00 PM`, JaneDoe, SLOWEST);
+    setClock(2025, 10, 1, 18, 0);
+    timestamp(JaneDoe, 'A few hours later, at night...');
+    timestamp(JaneDoe, '');
     await textLeft(`TEST: Adding timestamp for Sarah Smith`, JaneDoe, INSTANT);
     timestamp(SarahSmith);
+    timestamp(SarahSmith, 'Custom text timestamp...');
 
     await textRight(`=====[END] Clock=====`, JaneDoe, INSTANT, INSTANT);
   } else {

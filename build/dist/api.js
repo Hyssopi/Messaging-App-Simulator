@@ -13,17 +13,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const MILLISECONDS_PER_CHAR = 25;
 const DURATION_TO_MINUTE_MULTIPLIER = 0.001;
 /**
- * Pause execution and wait for some time.
- *
- * @param {number} duration - The duration to pause, in milliseconds.
- * @returns {Promise<void>}
- * @example
- * await sleep(5000);
- */
-const sleep = (duration) => {
-    return new Promise((resolve) => setTimeout(resolve, duration));
-};
-/**
  * Pause execution and wait until a specific condition is true.
  *
  * @param {function(): boolean} predicate - The specific condition that must be true for the execution to continue.
@@ -143,6 +132,17 @@ const setGlobalMessageSpeed = (messageSpeed = NORMAL) => {
     refreshMessageSpeedSettingText();
 };
 /**
+ * Pause execution and wait for some time. Adjusted with Global Message Speed.
+ *
+ * @param {number} duration - The duration to pause, in milliseconds.
+ * @returns {Promise<void>}
+ * @example
+ * await sleep(5000);
+ */
+const sleep = (duration) => {
+    return new Promise((resolve) => setTimeout(resolve, duration * getGlobalMessageSpeedMultiplier()));
+};
+/**
  * Set date and time.
  *
  * @param {number} year - The year, for example: 2025.
@@ -245,7 +245,7 @@ const textLeft = (text, name, duration) => __awaiter(void 0, void 0, void 0, fun
     if (text) {
         showTypingIndicator(name);
         const computedDuration = duration !== null && duration !== void 0 ? duration : text.length * MILLISECONDS_PER_CHAR;
-        yield sleep(computedDuration * getGlobalMessageSpeedMultiplier());
+        yield sleep(computedDuration);
         addMinutes(computedDuration * DURATION_TO_MINUTE_MULTIPLIER);
         hideTypingIndicator(name);
         addMessage(name, 'received', player.date, text, undefined);
@@ -264,7 +264,7 @@ const textLeft = (text, name, duration) => __awaiter(void 0, void 0, void 0, fun
  */
 const mediaLeft = (media_1, name_1, ...args_1) => __awaiter(void 0, [media_1, name_1, ...args_1], void 0, function* (media, name, duration = SLOWEST) {
     if (media) {
-        yield sleep(duration * getGlobalMessageSpeedMultiplier());
+        yield sleep(duration);
         addMinutes(duration * DURATION_TO_MINUTE_MULTIPLIER);
         addMessage(name, 'received', player.date, undefined, media);
     }
@@ -303,7 +303,7 @@ const textRight = (text, name, duration, delay) => __awaiter(void 0, void 0, voi
         const computedDuration = duration !== null && duration !== void 0 ? duration : text.length * MILLISECONDS_PER_CHAR;
         addMinutes(computedDuration * DURATION_TO_MINUTE_MULTIPLIER);
         const computedDelay = delay !== null && delay !== void 0 ? delay : text.length * 15;
-        yield sleep(computedDelay * getGlobalMessageSpeedMultiplier());
+        yield sleep(computedDelay);
         addMinutes(computedDelay * DURATION_TO_MINUTE_MULTIPLIER);
     }
 });
@@ -323,10 +323,10 @@ const textRight = (text, name, duration, delay) => __awaiter(void 0, void 0, voi
 const mediaRight = (media_2, name_2, ...args_2) => __awaiter(void 0, [media_2, name_2, ...args_2], void 0, function* (media, name, duration = SLOW, delay = SLOW) {
     if (media) {
         yield waitFor(() => activeContactName() === name);
-        yield sleep(duration * getGlobalMessageSpeedMultiplier());
+        yield sleep(duration);
         addMinutes(duration * DURATION_TO_MINUTE_MULTIPLIER);
         addMessage(name, 'sent', player.date, undefined, media);
-        yield sleep(delay * getGlobalMessageSpeedMultiplier());
+        yield sleep(delay);
         addMinutes(delay * DURATION_TO_MINUTE_MULTIPLIER);
     }
 });
@@ -345,7 +345,7 @@ const mediaRight = (media_2, name_2, ...args_2) => __awaiter(void 0, [media_2, n
  * await reaction('😓', JaneDoe, 0, INSTANT);
  */
 const reaction = (emoji_1, name_3, ...args_3) => __awaiter(void 0, [emoji_1, name_3, ...args_3], void 0, function* (emoji, name, lastMessageAgo = 0, duration = NORMAL) {
-    yield sleep(duration * getGlobalMessageSpeedMultiplier());
+    yield sleep(duration);
     addMinutes(duration * DURATION_TO_MINUTE_MULTIPLIER);
     addReaction(name, emoji, lastMessageAgo);
 });
@@ -353,12 +353,14 @@ const reaction = (emoji_1, name_3, ...args_3) => __awaiter(void 0, [emoji_1, nam
  * Add a timestamp to the chat.
  *
  * @param {string} name - Full name of the chat to insert the timestamp to.
+ * @param {string | undefined} fixedText - The custom text to put in the timestamp instead of the default datetime.
  * @returns {void}
  * @example
  * timestamp(JaneDoe);
+ * timestamp(JaneDoe, 'A few hours later, at night...');
  */
-const timestamp = (name) => {
-    addChatTimestamp(name, player.date);
+const timestamp = (name, fixedText) => {
+    addChatTimestamp(name, player.date, fixedText);
 };
 /**
  * Set the list of choices for the player to choose.

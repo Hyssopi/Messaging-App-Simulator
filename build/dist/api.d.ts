@@ -1,14 +1,5 @@
 import { Choice, MessageSpeed } from './model';
 /**
- * Pause execution and wait for some time.
- *
- * @param {number} duration - The duration to pause, in milliseconds.
- * @returns {Promise<void>}
- * @example
- * await sleep(5000);
- */
-export declare const sleep: (duration: number) => Promise<void>;
-/**
  * Pause execution and wait until a specific condition is true.
  *
  * @param {function(): boolean} predicate - The specific condition that must be true for the execution to continue.
@@ -31,6 +22,15 @@ export declare const waitFor: (predicate: () => boolean, timeout?: number, inter
  * setGlobalMessageSpeed();
  */
 export declare const setGlobalMessageSpeed: (messageSpeed?: MessageSpeed) => void;
+/**
+ * Pause execution and wait for some time. Adjusted with Global Message Speed.
+ *
+ * @param {number} duration - The duration to pause, in milliseconds.
+ * @returns {Promise<void>}
+ * @example
+ * await sleep(5000);
+ */
+export declare const sleep: (duration: number) => Promise<void>;
 /**
  * Set date and time.
  *
@@ -175,11 +175,13 @@ export declare const reaction: (emoji: string, name: string, lastMessageAgo?: nu
  * Add a timestamp to the chat.
  *
  * @param {string} name - Full name of the chat to insert the timestamp to.
+ * @param {string | undefined} fixedText - The custom text to put in the timestamp instead of the default datetime.
  * @returns {void}
  * @example
  * timestamp(JaneDoe);
+ * timestamp(JaneDoe, 'A few hours later, at night...');
  */
-export declare const timestamp: (name: string) => void;
+export declare const timestamp: (name: string, fixedText?: string) => void;
 /**
  * Set the list of choices for the player to choose.
  *

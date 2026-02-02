@@ -27,6 +27,7 @@ interface CurrentChoice {
 export interface Player {
     messageSpeed: MessageSpeed;
     accessibility: boolean;
+    relativeTimestamp: boolean;
     showTutorial: boolean;
     showUnitTests: boolean;
     date: Date;
