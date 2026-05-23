@@ -227,7 +227,9 @@ const addMessage = (name, side, date, text, media) => {
     const messageBubble = document.createElement('div');
     messageBubble.classList.add('message-bubble', side);
     if (text) {
-        messageBubble.textContent = text;
+        messageBubble.innerHTML = text.replace(/\p{Extended_Pictographic}/gu, (match) => {
+            return `<span class='emoji-text'>${match}</span>`;
+        });
     }
     else if (media) {
         if (media.toLowerCase().endsWith('.jpg') ||

@@ -241,7 +241,9 @@ export const addMessage = (name: string, side: Side, date: Date, text?: string, 
   messageBubble.classList.add('message-bubble', side);
 
   if (text) {
-    messageBubble.textContent = text;
+    messageBubble.innerHTML = text.replace(/\p{Extended_Pictographic}/gu, (match) => {
+      return `<span class='emoji-text'>${match}</span>`;
+    });
   } else if (media) {
     if (
       media.toLowerCase().endsWith('.jpg') ||

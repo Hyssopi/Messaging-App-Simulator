@@ -7,6 +7,11 @@
   --message-form-bottom: 16px;
 }
 
+@font-face {
+  font-family: 'Noto Color Emoji';
+  src: url('../fonts/NotoColorEmoji-Regular.ttf') format('truetype');
+}
+
 body {
   width: var(--parent-container-width);
   overflow: hidden;
@@ -472,6 +477,10 @@ button:disabled {
   margin-bottom: 2px;
 }
 
+.emoji-text {
+  font-family: 'Noto Color Emoji', sans-serif;
+}
+
 .last-message {
   margin-bottom: 10px;
 }
@@ -572,6 +581,7 @@ button:disabled {
   align-items: center;
   position: absolute;
   bottom: -18px;
+  font-family: 'Noto Color Emoji', sans-serif;
   font-size: 18px;
   animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.27) forwards;
   background-color: white;
