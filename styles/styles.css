@@ -76,7 +76,7 @@ button:disabled {
 
 .screen {
   width: 100%;
-  height: calc(100vh - var(--messages-app-component-border-width) - var(--messages-app-component-border-width) - var(--status-bar-height));
+  height: calc(100dvh - var(--messages-app-component-border-width) - var(--messages-app-component-border-width) - var(--status-bar-height));
   display: none;
   flex-direction: column;
 }
