@@ -9,7 +9,7 @@
   await waitFor(() => activeContactName() === JaneDoe);
 
   // 3. Set the clock
-  //setClock(2025, 9, 1, 17, 0);
+  //setClock(2025, OCTOBER, 1, 17, 0);
 
   // 4. (Optional) Add timestamp in chat
   timestamp(JaneDoe);
@@ -146,7 +146,7 @@
     await textLeft(`=====[START] Clock=====`, JaneDoe, INSTANT);
 
     await textLeft(`TEST: Clock set to: Wednesday, October 1 at 12:00 AM`, JaneDoe, INSTANT);
-    setClock(2025, 9, 1, 0);
+    setClock(2025, OCTOBER, 1, 0);
     timestamp(JaneDoe);
     await textLeft(`TEST: Adding 60 minutes...`, JaneDoe, SLOWEST);
     addMinutes(60);
@@ -161,19 +161,19 @@
     addMinutes(0);
     timestamp(JaneDoe);
     await textLeft(`TEST: Clock set to: Thursday, October 2 at 1:00 AM`, JaneDoe, SLOWEST);
-    setClock(2025, 9, 2, 1);
+    setClock(2025, OCTOBER, 2, 1);
     timestamp(JaneDoe);
     await textLeft(`TEST: Clock set to: Friday, October 3 at 1:00 AM`, JaneDoe, SLOWEST);
-    setClock(2025, 9, 3, 1);
+    setClock(2025, OCTOBER, 3, 1);
     timestamp(JaneDoe);
     await textLeft(`TEST: Clock set to: Saturday, October 4 at 1:00 AM`, JaneDoe, SLOWEST);
-    setClock(2025, 9, 4, 1);
+    setClock(2025, OCTOBER, 4, 1);
     timestamp(JaneDoe);
     await textLeft(`TEST: Clock set to: Sunday, October 5 at 1:00 AM`, JaneDoe, SLOWEST);
-    setClock(2025, 9, 5, 1);
+    setClock(2025, OCTOBER, 5, 1);
     timestamp(JaneDoe);
     await textLeft(`TEST: Clock set to: Wednesday, October 8 at 1:00 AM`, JaneDoe, SLOWEST);
-    setClock(2025, 9, 8, 1);
+    setClock(2025, OCTOBER, 8, 1);
     timestamp(JaneDoe);
     await textLeft(`TEST: Multiple timestamps`, JaneDoe, SLOWEST);
     timestamp(JaneDoe);
@@ -182,10 +182,10 @@
     timestamp(JaneDoe);
     timestamp(JaneDoe);
     await textLeft(`TEST: Clock set to: Saturday, November 1 at 1:30 PM`, JaneDoe, SLOWEST);
-    setClock(2025, 10, 1, 13, 30);
+    setClock(2025, NOVEMBER, 1, 13, 30);
     timestamp(JaneDoe);
     await textLeft(`TEST: Clock set to: Saturday, November 1 at 6:00 PM`, JaneDoe, SLOWEST);
-    setClock(2025, 10, 1, 18, 0);
+    setClock(2025, NOVEMBER, 1, 18, 0);
     timestamp(JaneDoe, 'A few hours later, at night...');
     timestamp(JaneDoe, '');
     await textLeft(`TEST: Adding timestamp for Sarah Smith`, JaneDoe, INSTANT);

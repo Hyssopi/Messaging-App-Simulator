@@ -1,4 +1,4 @@
-import { MessageSpeed, Player } from './model';
+import { MessageSpeed, Month, Player } from './model';
 
 export const player: Player = {
   messageSpeed: MessageSpeed.NORMAL,
@@ -6,7 +6,7 @@ export const player: Player = {
   relativeTimestamp: false,
   showTutorial: true,
   showUnitTests: false,
-  date: new Date(Date.UTC(2025, 9, 1, 17, 0)),
+  date: new Date(Date.UTC(2025, Month.OCTOBER, 1, 17, 0)),
   flags: [],
   batteryPercent: 100,
   skipMode: false,

@@ -8,7 +8,7 @@
   await waitFor(() => activeContactName() === TutorialGuide);
 
   // 3. Set the clock
-  //setClock(2025, 9, 1, 17, 0);
+  //setClock(2025, OCTOBER, 1, 17, 0);
 
   // 4. (Optional) Add timestamp in chat
   timestamp(TutorialGuide);

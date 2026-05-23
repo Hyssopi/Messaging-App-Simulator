@@ -1,4 +1,4 @@
-import { Choice, MessageSpeed } from './model';
+import { Choice, MessageSpeed, Month } from './model';
 /**
  * Pause execution and wait until a specific condition is true.
  *
@@ -35,16 +35,16 @@ export declare const sleep: (duration: number) => Promise<void>;
  * Set date and time.
  *
  * @param {number} year - The year, for example: 2025.
- * @param {number} monthIndex - The month index, for example: 0 for January and 11 for December.
+ * @param {number} month - The month, for example: OCTOBER or Month.OCTOBER.
  * @param {number} day - The day, for example: 1.
  * @param {number} hours - The hour, for example: from 0 to 23.
  * @param {number} minutes - The minute, for example: 30.
  * @returns {void}
  * @example
- * setClock(2025, 9, 1, 17, 30);
- * setClock(2025, 9, 1, 17);
+ * setClock(2025, OCTOBER, 1, 17, 30);
+ * setClock(2025, OCTOBER, 1, 17);
  */
-export declare const setClock: (year: number, monthIndex: number, day: number, hours: number, minutes?: number) => void;
+export declare const setClock: (year: number, month: Month, day: number, hours: number, minutes?: number) => void;
 /**
  * Add minutes to the time.
  *
