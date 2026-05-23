@@ -15,7 +15,7 @@ Written in TypeScript/JavaScript, HTML, and CSS.
     - Wrapper around `ui.ts` that describes the fully supported API that authors can and (should only) use
 
 ## Prerequisites
-`npm` required to build.
+`Node.js` required to build.
 
 ## Build
 1. Run in command prompt:
@@ -44,6 +44,24 @@ The reason is because we code in ES6, build in ES6, but we don't want to use ES6
 <script type="module" src="build/dist/model.js"></script>
 ```
 We should not use `module`, which is ES6. We also want to remove `export` and `import`, which are also ES6. This way we can run `index.html` locally without having to create a server to host these files.
+
+### Build using Node.js zip (without installing Node.js)
+Running `npm run` may give an error:
+```bash
+'"node"' is not recognized as an internal or external command, operable program or batch file.
+```
+Resolve this issue using:
+```bash
+set PATH=%PATH%;C:\Users\t\Desktop\Main\node-v24.15.0-win-x64
+```
+Then:
+```bash
+cd C:\Users\t\Desktop\Messaging-App-Simulator
+C:\Users\t\Desktop\Main\node-v24.15.0-win-x64\npm install
+C:\Users\t\Desktop\Main\node-v24.15.0-win-x64\npm run clean
+C:\Users\t\Desktop\Main\node-v24.15.0-win-x64\npm run lint
+C:\Users\t\Desktop\Main\node-v24.15.0-win-x64\npm run build
+```
 
 ## Run
 Open `index.html` in a web browser (Firefox, Chrome, etc).
