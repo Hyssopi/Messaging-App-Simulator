@@ -1,47 +1,34 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "baseUrl": "./src",
-    "declaration": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["DOM", "dom.iterable", "ES2020"],
-    "incremental": true,
-    "module": "ES6",
-    "moduleResolution": "node",
-    "outDir": "./build/dist",
-    "resolveJsonModule": true,
+    /* Environment & Target */
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+
+    /* Output & Bundling Support */
     "rootDir": "./src",
-    "skipLibCheck": false,
-    "sourceMap": true,
-    "target": "ES6",
-    "types": [],
-    "typeRoots": ["node_modules/@types", "src/types"],
+    "outDir": "./build/dist",
+    "noEmit": true,
 
-    // Strict options
-    "alwaysStrict": true,
-    "noEmitOnError": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "removeComments": false,
+    /* Modern Interop & Strictness */
     "strict": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true,
+    "noUncheckedIndexedAccess": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
 
-    // Checks
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": true,
+    /* Source Maps & Debugging */
+    "sourceMap": true,
+    "declaration": true,
+    "incremental": true,
 
-    // Debugging
-    "listEmittedFiles": false,
-    "listFiles": false,
-    "pretty": true,
-    "traceResolution": false,
+    /* General Project Options */
+    "allowJs": true,
+    "resolveJsonModule": true
   },
-  "compileOnSave": false,
-  "include": ["src/**/*.ts", "src/**/*.js"],
-  "exclude": ["**/node_modules/**"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "dist"]
 }

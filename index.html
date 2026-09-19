@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html>
-  <link href="styles/styles.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
-
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Messaging App Simulator</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
+    <link href="src/ui/styles.css" rel="stylesheet" />
   </head>
 
   <body>
@@ -24,7 +25,7 @@
         <div class="screen-container">
           <div id="settings-screen" class="screen">
             <header class="main-header">
-              <button class="back-button" onclick="navigateSettingsBack()">
+              <button id="settings-back-button" class="back-button">
                 <span class="material-symbols-outlined">chevron_left</span>
               </button>
               <div class="main-header-center">Settings</div>
@@ -37,21 +38,25 @@
                 </li>
                 <li class="setting-item">
                   <span class="setting-item-text">Accessibility</span>
-                  <input id="setting-accessibility-checkbox" type="checkbox" class="toggle" checked>
+                  <input id="setting-accessibility-checkbox" type="checkbox" class="toggle" checked />
+                </li>
+                <li class="setting-item">
+                  <span class="setting-item-text">Dark Mode</span>
+                  <input id="setting-dark-mode-checkbox" type="checkbox" class="toggle" />
                 </li>
                 <li class="setting-item">
                   <span class="setting-item-text">Show Relative Timestamps</span>
-                  <input id="setting-relative-timestamp-checkbox" type="checkbox" class="toggle" checked>
+                  <input id="setting-relative-timestamp-checkbox" type="checkbox" class="toggle" checked />
                 </li>
               </ul>
               <ul class="settings-group">
                 <li class="setting-item">
                   <span class="setting-item-text">Tutorial</span>
-                  <input id="setting-tutorial-checkbox" type="checkbox" class="toggle" checked>
+                  <input id="setting-tutorial-checkbox" type="checkbox" class="toggle" checked />
                 </li>
                 <li class="setting-item">
                   <span class="setting-item-text">Unit Tests</span>
-                  <input id="setting-unit-test-checkbox" type="checkbox" class="toggle" checked>
+                  <input id="setting-unit-test-checkbox" type="checkbox" class="toggle" checked />
                 </li>
               </ul>
             </div>
@@ -61,69 +66,53 @@
               <label id="main-header-edit">Edit</label>
               <div class="main-header-center">Messages</div>
             </header>
-            <div id="contact-list">
-            </div>
+            <div id="contact-list"></div>
           </div>
           <div id="chat-screen" class="screen">
             <header class="chat-header">
-              <button class="back-button" onclick="navigateChatBack()">
+              <button id="chat-back-button" class="back-button">
                 <span class="material-symbols-outlined">chevron_left</span>
               </button>
               <span id="unread-badge" class="badge"></span>
               <div class="chat-header-contact">
-                <img id="chat-header-contact-avatar" class="avatar" alt="AA">
+                <img id="chat-header-contact-avatar" class="avatar" alt="AA" />
                 <div id="chat-header-contact-name"></div>
               </div>
               <div id="accessibility-controls">
                 <div class="accessibility-choice">
-                  <button class="accessibility-button accessibility-choice-button" onclick="choiceChange(false)">
+                  <button id="accessibility-choice-up" class="accessibility-button accessibility-choice-button">
                     <span class="material-symbols-outlined">chevron_line_up</span>
                   </button>
-                  <button class="accessibility-button accessibility-choice-button" onclick="choiceChange(true)">
-                    <span class="material-symbols-outlined" style="transform: rotate(180deg);">chevron_line_up</span>
+                  <button id="accessibility-choice-down" class="accessibility-button accessibility-choice-button">
+                    <span class="material-symbols-outlined" style="transform: rotate(180deg)">chevron_line_up</span>
+                  </button>
+                  <button id="accessibility-skip-button" class="accessibility-button">
+                    <span class="material-symbols-outlined">fast_forward</span>
                   </button>
                 </div>
-                <button id="accessibility-skip-button" class="accessibility-button" onclick="toggleSkipMode()">
-                  <span class="material-symbols-outlined">fast_forward</span>
-                </button>
               </div>
             </header>
-            <div id="message-lists">
-            </div>
-            <div id="message-forms">
-            </div>
+            <div id="message-lists"></div>
+            <div id="message-forms"></div>
           </div>
         </div>
       </div>
-      <div id="image-overlay-container" class="overlay-container" onclick="hideImageOverlay()">
-        <img id="image-overlay-image" class="overlay-content">
+      <div id="image-overlay-container" class="overlay-container">
+        <img id="image-overlay-image" class="overlay-content" />
       </div>
       <div id="video-overlay-container" class="overlay-container">
         <video id="video-overlay-video" class="overlay-content" controls muted>
-          <source type="video/mp4">
-          <source type="video/webm">
+          <source type="video/mp4" />
+          <source type="video/webm" />
           Your browser does not support the video tag.
         </video>
-        <button class="close-button" onclick="hideVideoOverlay()">
+        <button class="close-button">
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
-      <div id="notification-container">
-      </div>
+      <div id="notification-container"></div>
     </div>
   </body>
 
-  <!-- Core functionality -->
-  <script src="build/dist/model.js"></script>
-  <script src="build/dist/state.js"></script>
-  <script src="build/dist/utility.js"></script>
-  <script src="build/dist/ui.js"></script>
-  <script src="build/dist/api.js"></script>
-
-  <!-- Story -->
-  <script src="story/tutorial/tutorial.js"></script>
-  <script src="story/debug/unit-tests.js"></script>
-  <!-- Add new story here -->
-  <script src="story/template/template.js"></script>
-
+  <script src="build/dist/bundle.js"></script>
 </html>

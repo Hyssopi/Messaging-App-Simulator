@@ -1,23 +1,28 @@
 // @ts-check
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
 const eslint = require('@eslint/js');
-// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
 const tseslint = require('typescript-eslint');
-// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
 const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
 
-// eslint-disable-next-line no-undef
 module.exports = [
+  // 1. Global ignores should be at the very top
+  {
+    ignores: ['eslint.config.js', 'build/**', 'scripts/**', 'node_modules/**'],
+  },
+
+  // 2. Base ESLint and TypeScript recommended configs
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
+
+  // 3. Prettier will override some formatting rules
   eslintPluginPrettierRecommended,
-  {
-    ignores: ['build/*'],
-  },
+
+  // 4. Custom rules
   {
     rules: {
-      'no-use-before-define': 'error',
+      curly: ['error', 'all'],
+      'no-use-before-define': 'off',
+      '@typescript-eslint/no-use-before-define': ['error', { functions: false }],
       '@typescript-eslint/explicit-function-return-type': 'error',
     },
   },

@@ -1,7 +1,21 @@
-/* eslint-disable no-undef, @typescript-eslint/explicit-function-return-type */
-(async () => {
+import {
+  contact,
+  waitFor,
+  activeContactName,
+  timestamp,
+  textLeft,
+  textRight,
+  reaction,
+  mediaLeft,
+  choices,
+  addFlag,
+  hasFlag,
+} from '../../api/api';
+import { NORMAL } from '../../common/constants';
+
+export const tutorial = async (): Promise<void> => {
   // 1. Add Contact(s)
-  const TutorialGuide = contact('Tutorial', 'Guide', 'story/tutorial/images/tutorial-guide.png');
+  const TutorialGuide = contact('Tutorial', 'Guide', 'src/story/tutorial/images/tutorial-guide.png');
 
   // 2. (Optional) Wait for specific conditions (such as flags, etc), or when the player enters into this person's chat
   //await waitFor(() => hasFlag('test-flag'));
@@ -36,7 +50,7 @@
 
   await textRight(`How can I view images?`, TutorialGuide);
   await textLeft(`Here is an example of an image:`, TutorialGuide);
-  await mediaLeft('story/debug/images/Cat.png', TutorialGuide, NORMAL);
+  await mediaLeft('src/story/debug/images/Cat.png', TutorialGuide, NORMAL);
   await textLeft(
     `Click on the image to get a better look at it.
 Then click anywhere or press the 'Esc' key to exit.`,
@@ -45,7 +59,7 @@ Then click anywhere or press the 'Esc' key to exit.`,
 
   await textRight(`How can I play videos?`, TutorialGuide);
   await textLeft(`Here is an example of a video:`, TutorialGuide);
-  await mediaLeft('story/debug/videos/mov_bbb.mp4', TutorialGuide, NORMAL);
+  await mediaLeft('src/story/debug/videos/mov_bbb.mp4', TutorialGuide, NORMAL);
   await textLeft(
     `Click on the video to play it.
 Then click on the 'X' button at the top-right or press the 'Esc' key to exit.`,
@@ -67,14 +81,14 @@ Then click on the 'X' button at the top-right or press the 'Esc' key to exit.`,
       {
         displayText: `Pizza.`,
         fullText: `Pizza! It's delicious.`,
-        callback: () => {
+        callback: (): void => {
           addFlag('pizza');
         },
       },
       {
         displayText: `Burger.`,
         fullText: `Burger! You can't go wrong with burgers.`,
-        callback: () => {
+        callback: (): void => {
           addFlag('burger');
         },
       },
@@ -104,4 +118,4 @@ Then click on the 'X' button at the top-right or press the 'Esc' key to exit.`,
     `By the way: you can change the settings by going back to the main screen and clicking on 'Edit'.`,
     TutorialGuide,
   );
-})();
+};

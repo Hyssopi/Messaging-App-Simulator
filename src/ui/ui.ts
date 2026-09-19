@@ -1,54 +1,48 @@
-import { BATTERY_PERCENT_PER_STAGE, Choice, DEFAULT_TYPING_SPEED_DELAY, Side } from './model';
-import { player } from './state';
-import { formatRelativeTime, formatSpecificRelativeDate, isMobile } from './utility';
+import { BATTERY_PERCENT_PER_STAGE, DEFAULT_TYPING_SPEED_DELAY, MESSAGE_SPEED_OPTIONS } from '../common/constants';
+import type { Side, Choice } from '../common/types';
+import { clockFormatter, timeTooltipFormatter } from '../date/constants';
+import { formatRelativeTime, formatSpecificRelativeDate } from '../date/utils';
+import { state } from '../state/state';
+import { consoleLogColor } from '../utils/debug';
+import { isImageMedia, isMobile } from '../utils/helper';
+import { getDomElement, queryDom } from '../utils/ui';
 
-const clock = document.getElementById('clock') as HTMLSpanElement;
-const batteryIcon = document.getElementById('battery') as HTMLSpanElement;
-const settingsScreen = document.getElementById('settings-screen') as HTMLDivElement;
-const accessibilityCheckbox = document.getElementById('setting-accessibility-checkbox') as HTMLInputElement;
-const relativeTimestampCheckbox = document.getElementById('setting-relative-timestamp-checkbox') as HTMLInputElement;
-const tutorialCheckbox = document.getElementById('setting-tutorial-checkbox') as HTMLInputElement;
-const unitTestsCheckbox = document.getElementById('setting-unit-test-checkbox') as HTMLInputElement;
-const mainScreen = document.getElementById('main-screen') as HTMLDivElement;
-const editLabel = document.getElementById('main-header-edit') as HTMLLabelElement;
-const contactList = document.getElementById('contact-list') as HTMLDivElement;
-const chatScreen = document.getElementById('chat-screen') as HTMLDivElement;
-const unreadBadge = document.getElementById('unread-badge') as HTMLSpanElement;
-const chatContactAvatar = document.getElementById('chat-header-contact-avatar') as HTMLImageElement;
-export const chatContactName = document.getElementById('chat-header-contact-name') as HTMLDivElement;
-const accessibilityControls = document.getElementById('accessibility-controls') as HTMLButtonElement;
-const accessibilitySkip = document.getElementById('accessibility-skip-button') as HTMLButtonElement;
-const messageLists = document.getElementById('message-lists') as HTMLDivElement;
-const messageForms = document.getElementById('message-forms') as HTMLDivElement;
-const imageOverlayContainer = document.getElementById('image-overlay-container') as HTMLDivElement;
-const imageOverlayImage = document.getElementById('image-overlay-image') as HTMLImageElement;
-const videoOverlayContainer = document.getElementById('video-overlay-container') as HTMLDivElement;
-const videoOverlayVideo = document.getElementById('video-overlay-video') as HTMLVideoElement;
-const notificationContainer = document.getElementById('notification-container') as HTMLDivElement;
+const clock = getDomElement<HTMLSpanElement>('clock');
+const batteryIcon = getDomElement<HTMLSpanElement>('battery');
+const settingsScreen = getDomElement<HTMLDivElement>('settings-screen');
+export const messageSpeedSetting = getDomElement<HTMLSpanElement>('setting-message-speed');
+const accessibilityCheckbox = getDomElement<HTMLInputElement>('setting-accessibility-checkbox');
+const darkModeCheckbox = getDomElement<HTMLInputElement>('setting-dark-mode-checkbox');
+const relativeTimestampCheckbox = getDomElement<HTMLInputElement>('setting-relative-timestamp-checkbox');
+const tutorialCheckbox = getDomElement<HTMLInputElement>('setting-tutorial-checkbox');
+const unitTestsCheckbox = getDomElement<HTMLInputElement>('setting-unit-test-checkbox');
+const settingsBackButton = getDomElement<HTMLButtonElement>('settings-back-button');
+const chatBackButton = getDomElement<HTMLButtonElement>('chat-back-button');
+const mainScreen = getDomElement<HTMLDivElement>('main-screen');
+const editLabel = getDomElement<HTMLLabelElement>('main-header-edit');
+const contactList = getDomElement<HTMLDivElement>('contact-list');
+const chatScreen = getDomElement<HTMLDivElement>('chat-screen');
+const unreadBadge = getDomElement<HTMLSpanElement>('unread-badge');
+const chatContactAvatar = getDomElement<HTMLImageElement>('chat-header-contact-avatar');
+export const chatContactName = getDomElement<HTMLDivElement>('chat-header-contact-name');
+const accessibilityControls = getDomElement<HTMLDivElement>('accessibility-controls');
+const accessibilityChoiceUp = getDomElement<HTMLButtonElement>('accessibility-choice-up');
+const accessibilityChoiceDown = getDomElement<HTMLButtonElement>('accessibility-choice-down');
+const accessibilitySkip = getDomElement<HTMLButtonElement>('accessibility-skip-button');
+const messageLists = getDomElement<HTMLDivElement>('message-lists');
+const messageForms = getDomElement<HTMLDivElement>('message-forms');
+const imageOverlayContainer = getDomElement<HTMLDivElement>('image-overlay-container');
+const imageOverlayImage = getDomElement<HTMLImageElement>('image-overlay-image');
+const videoOverlayContainer = getDomElement<HTMLDivElement>('video-overlay-container');
+const videoOverlayVideo = getDomElement<HTMLVideoElement>('video-overlay-video');
+const notificationContainer = getDomElement<HTMLDivElement>('notification-container');
 
-const clockFormatter = new Intl.DateTimeFormat('en-US', {
-  hour: 'numeric',
-  minute: 'numeric',
-  hour12: true,
-  timeZone: 'UTC',
-});
-
-const timeTooltipFormatter = new Intl.DateTimeFormat('en-US', {
-  weekday: 'long',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  hour12: true,
-  timeZone: 'UTC',
-});
-
-const updateTimestamps = (): void => {
+function updateTimestamps(): void {
   const contactTimeElements = document.querySelectorAll('time.timestamp');
   contactTimeElements.forEach((element) => {
     const datetime = element.getAttribute('datetime');
     if (datetime) {
-      element.textContent = formatRelativeTime(player.date, datetime);
+      element.textContent = formatRelativeTime(state.gameState.date, datetime);
     }
   });
 
@@ -56,22 +50,22 @@ const updateTimestamps = (): void => {
   chatTimeElements.forEach((element) => {
     const datetime = element.getAttribute('datetime');
     if (datetime) {
-      if (player.relativeTimestamp) {
-        element.textContent = formatSpecificRelativeDate(player.date, datetime);
+      if (state.settingsState.relativeTimestamp) {
+        element.textContent = formatSpecificRelativeDate(state.gameState.date, datetime);
       } else {
         element.textContent = (element as HTMLTimeElement).title;
       }
     }
   });
-};
+}
 
-export const updateClock = (): void => {
-  clock.textContent = clockFormatter.format(player.date);
+export function updateClock(): void {
+  clock.textContent = clockFormatter.format(state.gameState.date);
   updateTimestamps();
-};
+}
 
-export const updateBatteryLevel = (percent: number): void => {
-  player.batteryPercent = percent;
+export function updateBatteryLevel(percent: number): void {
+  state.gameState.batteryPercent = percent;
 
   if (percent >= BATTERY_PERCENT_PER_STAGE * 7) {
     batteryIcon.textContent = 'battery_android_full';
@@ -100,17 +94,16 @@ export const updateBatteryLevel = (percent: number): void => {
       batteryIcon.classList.add('low');
     }
   }
-};
+}
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const navigateSettingsBack = (): void => {
+export function navigateSettingsBack(): void {
   mainScreen.classList.add('active');
   settingsScreen.classList.remove('active');
   mainScreen.classList.add('visible');
   settingsScreen.classList.remove('visible');
-};
+}
 
-const updateUnreadBadge = (): void => {
+function updateUnreadBadge(): void {
   let unreadCount = 0;
   for (const contactItem of contactList.children) {
     if (contactItem.classList.contains('unread')) {
@@ -129,81 +122,81 @@ const updateUnreadBadge = (): void => {
   } else {
     unreadBadge.classList.add('hidden');
   }
-};
+}
 
-const refreshChatContact = (contactItem: HTMLDivElement): void => {
-  const avatar = contactItem.querySelector('.avatar') as HTMLImageElement;
-  const name = (contactItem.querySelector('.contact-name') as HTMLSpanElement).textContent;
+function refreshChatContact(contactItem: HTMLDivElement): void {
+  const avatar = queryDom<HTMLImageElement>(contactItem, '.avatar');
+  const name = queryDom<HTMLSpanElement>(contactItem, '.contact-name').textContent;
 
   chatContactAvatar.src = avatar.src;
   chatContactAvatar.alt = avatar.alt;
   chatContactName.textContent = name;
-};
+}
 
-const getMessageBubble = (name: string, lastMessageAgo: number): Element => {
-  const messageList = document.getElementById(`${name}-message-list`) as HTMLDivElement;
+function getMessageBubble(name: string, lastMessageAgo: number): Element | undefined {
+  const messageList = getDomElement<HTMLDivElement>(`${name}-message-list`);
   const messageBubbles = Array.from(messageList.children).filter((element) => {
     return element.classList.contains('message-bubble') && !element.classList.contains('typing-indicator');
   });
   return messageBubbles[messageBubbles.length - 1 - lastMessageAgo];
-};
+}
 
-const showImageOverlay = (image: string): void => {
+function showImageOverlay(image: string): void {
   imageOverlayContainer.classList.add('active');
   imageOverlayImage.src = image;
-};
+}
 
-const hideImageOverlay = (): void => {
+function hideImageOverlay(): void {
   imageOverlayContainer.classList.remove('active');
   imageOverlayImage.removeAttribute('src');
-};
+}
 
-const showVideoOverlay = (video: string): void => {
+function showVideoOverlay(video: string): void {
   videoOverlayContainer.classList.add('active');
   const sources = videoOverlayVideo.getElementsByTagName('source');
   for (const source of sources) {
     source.src = video;
   }
   videoOverlayVideo.load();
-};
+}
 
-const hideVideoOverlay = (): void => {
+function hideVideoOverlay(): void {
   videoOverlayContainer.classList.remove('active');
   const sources = videoOverlayVideo.getElementsByTagName('source');
   for (const source of sources) {
     source.removeAttribute('src');
   }
-};
+}
 
-const isMessageListActive = (name: string): boolean => {
-  const messageList = document.getElementById(`${name}-message-list`) as HTMLDivElement;
+function isMessageListActive(name: string): boolean {
+  const messageList = getDomElement<HTMLDivElement>(`${name}-message-list`);
   return messageList.classList.contains('active');
-};
+}
 
-const atBottom = (): boolean => {
+function atBottom(): boolean {
   return Math.ceil(messageLists.scrollTop) >= messageLists.scrollHeight - messageLists.offsetHeight;
-};
+}
 
-const messageListScrollToBottom = (name?: string, previouslyAtBottom?: boolean): void => {
+function messageListScrollToBottom(name?: string, previouslyAtBottom?: boolean): void {
   const nameCondition = !name || isMessageListActive(name);
   const atBottomCondition = previouslyAtBottom === undefined || previouslyAtBottom;
 
   if (nameCondition && atBottomCondition) {
     messageLists.scrollTop = messageLists.scrollHeight;
   }
-};
+}
 
-export const createNotification = (app: string, name: string, body: string, datetime: string): void => {
+export function createNotification(app: string, name: string, body: string, datetime: string | Date): void {
   const notification = document.createElement('div');
   notification.classList.add('notification');
 
-  const avatarImage = document.getElementById(`${name}-contact-avatar`) as HTMLImageElement;
+  const avatarImage = getDomElement<HTMLImageElement>(`${name}-contact-avatar`, false);
   notification.innerHTML = `
-    <img class="avatar" alt="${avatarImage?.alt ?? '?'}" src="${avatarImage?.src}">
+    <img class="avatar" alt="${avatarImage?.alt ?? '?'}" src="${avatarImage?.src ?? ''}">
     <div class="notification-content">
       <div class="notification-header">
         <span>${app}</span>
-        <span>${formatRelativeTime(player.date, datetime)}</span>
+        <span>${formatRelativeTime(state.gameState.date, datetime)}</span>
       </div>
       <div class="notification-name">${name}</div>
       <div class="notification-message">${body}</div>
@@ -227,9 +220,9 @@ export const createNotification = (app: string, name: string, body: string, date
       { once: true },
     );
   }, 3000);
-};
+}
 
-export const addMessage = (name: string, side: Side, date: Date, text?: string, media?: string): void => {
+export function addMessage(name: string, side: Side, date: Date, text?: string, media?: string): void {
   if (!text && !media) {
     return;
   }
@@ -245,25 +238,26 @@ export const addMessage = (name: string, side: Side, date: Date, text?: string, 
       return `<span class='emoji-text'>${match}</span>`;
     });
   } else if (media) {
-    if (
-      media.toLowerCase().endsWith('.jpg') ||
-      media.toLowerCase().endsWith('.png') ||
-      media.toLowerCase().endsWith('.gif')
-    ) {
+    if (isImageMedia(media)) {
       const imageElement = document.createElement('img');
+
       imageElement.classList.add('message-media');
-      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-      imageElement.onload = () => {
-        imageElement.addEventListener('click', () => {
-          showImageOverlay(imageElement.src);
-        });
+      imageElement.alt = `${media}`;
+
+      imageElement.addEventListener('click', (): void => {
+        showImageOverlay(imageElement.src);
+      });
+
+      imageElement.onload = (): void => {
         messageListScrollToBottom(name);
       };
-      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-      imageElement.onerror = () => {
+
+      imageElement.onerror = (): void => {
+        imageElement.onerror = null;
         imageElement.classList.add('invalid-media');
         imageElement.src = 'resources/missing-preview.png';
       };
+
       imageElement.src = media;
 
       messageBubble.appendChild(imageElement);
@@ -274,9 +268,9 @@ export const addMessage = (name: string, side: Side, date: Date, text?: string, 
       videoElement.controls = true;
       videoElement.preload = 'metadata';
       videoElement.muted = true;
+      const videoType = media.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4';
       videoElement.innerHTML = `
-        <source src="${media}" type="video/mp4">
-        <source src="${media}" type="video/webm">
+        <source src="${media}" type="${videoType}">
         Your browser does not support HTML video.
       `;
       videoElement.addEventListener('loadedmetadata', () => {
@@ -302,7 +296,7 @@ export const addMessage = (name: string, side: Side, date: Date, text?: string, 
     }
   }
 
-  const messageList = document.getElementById(`${name}-message-list`) as HTMLDivElement;
+  const messageList = getDomElement<HTMLDivElement>(`${name}-message-list`);
   messageList.appendChild(messageBubble);
 
   const lastMessage = getMessageBubble(name, 0);
@@ -310,7 +304,7 @@ export const addMessage = (name: string, side: Side, date: Date, text?: string, 
   if (secondLastMessage && secondLastMessage.classList.contains(side)) {
     secondLastMessage.classList.remove('last-message');
   }
-  lastMessage.classList.add('last-message');
+  lastMessage?.classList.add('last-message');
 
   messageListScrollToBottom(name);
 
@@ -318,13 +312,13 @@ export const addMessage = (name: string, side: Side, date: Date, text?: string, 
     side === 'received' && (!chatScreen.classList.contains('active') || !messageList.classList.contains('active'));
 
   for (const contactItem of contactList.children) {
-    const contactName = (contactItem.querySelector('.contact-name') as HTMLSpanElement).textContent;
+    const contactName = queryDom<HTMLSpanElement>(contactItem, '.contact-name').textContent;
     if (contactName === name) {
       if (unread && !contactItem.classList.contains('unread')) {
         contactItem.classList.add('unread');
       }
 
-      const preview = contactItem.querySelector('.preview') as HTMLDivElement;
+      const preview = queryDom<HTMLDivElement>(contactItem, '.preview');
       if (unread) {
         preview.innerHTML = '<span class="unread-indicator"></span>';
       } else {
@@ -336,7 +330,7 @@ export const addMessage = (name: string, side: Side, date: Date, text?: string, 
         preview.innerHTML += ' (Media sent)';
       }
 
-      const timestamp = contactItem.querySelector('.timestamp') as HTMLTimeElement;
+      const timestamp = queryDom<HTMLTimeElement>(contactItem, '.timestamp');
       timestamp.textContent = 'now';
       timestamp.title = timeTooltipFormatter.format(date);
       timestamp.setAttribute('datetime', date.toISOString());
@@ -351,26 +345,26 @@ export const addMessage = (name: string, side: Side, date: Date, text?: string, 
   if (unread) {
     createNotification('Messages', name, text ?? (media ? '(Media sent)' : '-'), date.toISOString());
   }
-};
+}
 
-export const showTypingIndicator = (name: string): void => {
+export function showTypingIndicator(name: string): void {
   const currentAtBottom = atBottom();
 
-  const messageList = document.getElementById(`${name}-message-list`) as HTMLDivElement;
-  const typingIndicator = messageList.querySelector('.typing-indicator.received') as HTMLDivElement;
+  const messageList = getDomElement<HTMLDivElement>(`${name}-message-list`);
+  const typingIndicator = queryDom<HTMLDivElement>(messageList, '.typing-indicator.received');
   messageList.appendChild(typingIndicator);
   typingIndicator.classList.add('visible');
 
   messageListScrollToBottom(name, currentAtBottom);
-};
+}
 
-export const hideTypingIndicator = (name: string): void => {
-  const messageList = document.getElementById(`${name}-message-list`) as HTMLDivElement;
-  const typingIndicator = messageList.querySelector('.typing-indicator.received') as HTMLDivElement;
+export function hideTypingIndicator(name: string): void {
+  const messageList = getDomElement<HTMLDivElement>(`${name}-message-list`);
+  const typingIndicator = queryDom<HTMLDivElement>(messageList, '.typing-indicator.received');
   typingIndicator.classList.remove('visible');
-};
+}
 
-export const addChatTimestamp = (name: string, date: Date, fixedText?: string): void => {
+export function addChatTimestamp(name: string, date: Date, fixedText?: string): void {
   const currentAtBottom = atBottom();
 
   const timestamp = document.createElement('time') as HTMLTimeElement;
@@ -381,20 +375,20 @@ export const addChatTimestamp = (name: string, date: Date, fixedText?: string): 
     timestamp.setAttribute('datetime', date.toISOString());
   }
 
-  const messageList = document.getElementById(`${name}-message-list`) as HTMLDivElement;
+  const messageList = getDomElement<HTMLDivElement>(`${name}-message-list`);
   messageList.appendChild(timestamp);
 
   updateTimestamps();
 
   messageListScrollToBottom(name, currentAtBottom);
-};
+}
 
-export const addReaction = (name: string, emoji: string, lastMessageAgo: number = 0): void => {
+export function addReaction(name: string, emoji: string, lastMessageAgo: number = 0): void {
   const messageBubble = getMessageBubble(name, lastMessageAgo);
   if (messageBubble) {
     const currentAtBottom = atBottom();
 
-    const existingReaction = messageBubble.querySelector('.emoji-reaction') as HTMLDivElement;
+    const existingReaction = queryDom<HTMLDivElement>(messageBubble, '.emoji-reaction', false);
     if (existingReaction) {
       if (existingReaction.textContent === emoji) {
         existingReaction.remove();
@@ -411,72 +405,75 @@ export const addReaction = (name: string, emoji: string, lastMessageAgo: number 
 
     messageListScrollToBottom(name, currentAtBottom);
   }
-};
+}
 
-const refreshChoices = (name: string): void => {
-  const currentChoiceData = player.currentChoiceMap.get(name);
+function refreshChoices(name: string): void {
+  const currentChoiceData = state.gameState.currentChoiceMap.get(name);
   if (currentChoiceData && currentChoiceData.choices.length > 0) {
     const currentChoice = currentChoiceData.choices[currentChoiceData.index];
 
-    const messageInput = document.getElementById(`${name}-message-input`) as HTMLInputElement;
-    messageInput.value = currentChoice.displayText ?? currentChoice.fullText;
+    const messageInput = getDomElement<HTMLInputElement>(`${name}-message-input`);
+    messageInput.value = currentChoice?.displayText ?? currentChoice?.fullText ?? '';
   }
-};
+}
 
-export const enableChoices = (name: string, choices: Choice[]): void => {
+export function enableChoices(name: string, choices: Choice[]): void {
   if (choices.length > 0) {
-    player.currentChoiceMap.set(name, {
+    state.gameState.currentChoiceMap.set(name, {
       choices: choices,
       index: 0,
     });
     refreshChoices(name);
 
-    const messageInput = document.getElementById(`${name}-message-input`) as HTMLInputElement;
+    const messageInput = getDomElement<HTMLInputElement>(`${name}-message-input`);
     messageInput.focus();
     messageInput.classList.add('choice');
   }
-};
+}
 
-const disableChoices = (name: string): void => {
-  player.currentChoiceMap.delete(name);
+function disableChoices(name: string): void {
+  state.gameState.currentChoiceMap.delete(name);
 
-  const messageInput = document.getElementById(`${name}-message-input`) as HTMLInputElement;
+  const messageInput = getDomElement<HTMLInputElement>(`${name}-message-input`);
   messageInput.classList.remove('choice');
-};
+}
 
-const updateChoiceInput = (name: string, down: boolean): void => {
-  const currentChoiceData = player.currentChoiceMap.get(name);
+function updateChoiceInput(name: string, down: boolean): void {
+  const currentChoiceData = state.gameState.currentChoiceMap.get(name);
   if (currentChoiceData && currentChoiceData.choices.length > 0) {
     if (down) {
-      player.currentChoiceMap.set(name, {
+      state.gameState.currentChoiceMap.set(name, {
         ...currentChoiceData,
         index: Math.min(currentChoiceData.index + 1, currentChoiceData.choices.length - 1),
       });
     } else {
-      player.currentChoiceMap.set(name, { ...currentChoiceData, index: Math.max(0, currentChoiceData.index - 1) });
+      state.gameState.currentChoiceMap.set(name, {
+        ...currentChoiceData,
+        index: Math.max(0, currentChoiceData.index - 1),
+      });
     }
     refreshChoices(name);
 
-    const messageInput = document.getElementById(`${name}-message-input`) as HTMLInputElement;
+    const messageInput = getDomElement<HTMLInputElement>(`${name}-message-input`);
     messageInput.focus();
   }
-};
+}
 
-const choiceChange = (down: boolean): void => {
+function choiceChange(down: boolean): void {
   const activeContactName = chatContactName.textContent;
   if (activeContactName) {
     updateChoiceInput(activeContactName, down);
   }
-};
+}
 
-export const startTypeWriter = (
+export function startTypeWriter(
   name: string,
   text: string,
   typingSpeedDelay: number = DEFAULT_TYPING_SPEED_DELAY,
-): Promise<boolean> => {
+): Promise<boolean> {
   return new Promise((resolve) => {
-    const messageInput = document.getElementById(`${name}-message-input`) as HTMLInputElement;
-    const messageSend = document.getElementById(`${name}-message-send`) as HTMLButtonElement;
+    const messageInput = getDomElement<HTMLInputElement>(`${name}-message-input`);
+    const messageSend = getDomElement<HTMLButtonElement>(`${name}-message-send`);
 
     messageInput.value = '';
     messageInput.focus();
@@ -502,19 +499,19 @@ export const startTypeWriter = (
       }, typingSpeedDelay);
     }
   });
-};
+}
 
-export const startTypeWriterWithSubmit = async (
+export async function startTypeWriterWithSubmit(
   name: string,
   text: string,
   typingSpeedDelay: number = DEFAULT_TYPING_SPEED_DELAY,
-): Promise<void> => {
+): Promise<void> {
   await startTypeWriter(name, text, typingSpeedDelay);
-  const messageSend = document.getElementById(`${name}-message-send`) as HTMLButtonElement;
+  const messageSend = getDomElement<HTMLButtonElement>(`${name}-message-send`);
   messageSend.click();
-};
+}
 
-const addMessageForm = (name: string): void => {
+function addMessageForm(name: string): void {
   const messageInput = document.createElement('input');
   messageInput.classList.add('message-input');
   messageInput.id = `${name}-message-input`;
@@ -542,9 +539,13 @@ const addMessageForm = (name: string): void => {
     event.preventDefault();
 
     let choiceCallback;
-    const currentChoiceData = player.currentChoiceMap.get(name);
+    const currentChoiceData = state.gameState.currentChoiceMap.get(name);
     if (currentChoiceData && currentChoiceData.choices.length > 0 && messageInput.value.trim()) {
       const currentChoice = currentChoiceData.choices[currentChoiceData.index];
+
+      if (!currentChoice) {
+        throw new Error(`Message Form Submit`);
+      }
 
       const text = currentChoice.fullText;
       const typingSpeedDelay = currentChoice.typingSpeedDelay;
@@ -558,7 +559,7 @@ const addMessageForm = (name: string): void => {
       disableChoices(name);
 
       if (chatContactName.textContent) {
-        addMessage(chatContactName.textContent, 'sent', player.date, messageText, undefined);
+        addMessage(chatContactName.textContent, 'sent', state.gameState.date, messageText, undefined);
         if (choiceCallback) {
           choiceCallback();
         }
@@ -567,20 +568,20 @@ const addMessageForm = (name: string): void => {
       messageInput.value = '';
       messageInput.focus();
 
-      player.pause = player.pause.filter((n) => n !== name);
+      state.gameState.pause = state.gameState.pause.filter((n) => n !== name);
     }
   });
 
   messageForms.appendChild(messageForm);
-};
+}
 
-const getActiveMessageSend = (): HTMLButtonElement | undefined => {
-  const activeMessageForm = messageForms.querySelector('.message-form.active') as HTMLFormElement;
-  const messageSend = activeMessageForm.querySelector('.message-send') as HTMLButtonElement;
+function getActiveMessageSend(): HTMLButtonElement | undefined {
+  const activeMessageForm = queryDom<HTMLFormElement>(messageForms, '.message-form.active');
+  const messageSend = queryDom<HTMLButtonElement>(activeMessageForm, '.message-send');
   return messageSend;
-};
+}
 
-const switchMessageList = (name: string): void => {
+function switchMessageList(name: string): void {
   const messageListId = `${name}-message-list`;
   for (const messageList of messageLists.children) {
     if (messageList.id === messageListId) {
@@ -598,9 +599,9 @@ const switchMessageList = (name: string): void => {
       messageForm.classList.remove('active');
     }
   }
-};
+}
 
-const addMessageList = (name: string): void => {
+function addMessageList(name: string): void {
   const typingIndicator = document.createElement('div');
   typingIndicator.classList.add('typing-indicator');
   typingIndicator.classList.add('message-bubble');
@@ -620,17 +621,17 @@ const addMessageList = (name: string): void => {
   messageLists.appendChild(messageList);
 
   addMessageForm(name);
-};
+}
 
-const getFullName = (firstname?: string, lastname?: string): string => {
+function getFullName(firstname?: string, lastname?: string): string {
   if (firstname || lastname) {
     return `${firstname ?? ''} ${lastname ?? ''}`.trim();
   } else {
     return 'Unknown Contact';
   }
-};
+}
 
-const getNameInitials = (firstname?: string, lastname?: string): string => {
+function getNameInitials(firstname?: string, lastname?: string): string {
   if (firstname && lastname) {
     return `${firstname.charAt(0)}${lastname.charAt(0)}`;
   } else if (firstname && !lastname) {
@@ -640,11 +641,11 @@ const getNameInitials = (firstname?: string, lastname?: string): string => {
   } else {
     return '?';
   }
-};
+}
 
-export const addContact = (firstname: string, lastname: string, avatar: string): string => {
+export function addContact(firstname: string, lastname: string, avatar: string): string {
   const name = getFullName(firstname, lastname);
-  const avatarImage = document.getElementById(`${name}-contact-avatar`) as HTMLImageElement;
+  const avatarImage = getDomElement<HTMLImageElement>(`${name}-contact-avatar`, false);
   if (avatarImage) {
     avatarImage.src = avatar;
     return name;
@@ -667,7 +668,7 @@ export const addContact = (firstname: string, lastname: string, avatar: string):
   item.addEventListener('click', () => {
     if (item.classList.contains('unread')) {
       item.classList.remove('unread');
-      const unreadIndicator = item.querySelector('.unread-indicator');
+      const unreadIndicator = queryDom(item, '.unread-indicator');
       if (unreadIndicator) {
         unreadIndicator.remove();
       }
@@ -679,7 +680,7 @@ export const addContact = (firstname: string, lastname: string, avatar: string):
     chatScreen.classList.add('visible');
 
     refreshChatContact(item);
-    const contactName = (item.querySelector('.contact-name') as HTMLSpanElement).textContent as string;
+    const contactName = queryDom<HTMLSpanElement>(item, '.contact-name').textContent as string;
     switchMessageList(contactName);
 
     setTimeout(() => {
@@ -693,22 +694,22 @@ export const addContact = (firstname: string, lastname: string, avatar: string):
   addMessageList(name);
 
   return name;
-};
+}
 
-export const renameContact = (oldName: string, firstname: string, lastname: string, avatar?: string): string => {
+export function renameContact(oldName: string, firstname: string, lastname: string, avatar?: string): string {
   const newName = getFullName(firstname, lastname);
 
-  const avatarImage = document.getElementById(`${oldName}-contact-avatar`) as HTMLImageElement;
+  const avatarImage = getDomElement<HTMLImageElement>(`${oldName}-contact-avatar`);
   avatarImage.id = `${newName}-contact-avatar`;
   avatarImage.alt = `${getNameInitials(firstname, lastname)}`;
   avatarImage.src = avatar ?? '';
 
-  const oldMessageForm = document.getElementById(`${oldName}-message-form`) as HTMLFormElement;
+  const oldMessageForm = getDomElement<HTMLFormElement>(`${oldName}-message-form`);
   oldMessageForm.remove();
   addMessageForm(newName);
 
   for (const contactItem of contactList.children) {
-    const contactName = contactItem.querySelector('.contact-name') as HTMLSpanElement;
+    const contactName = queryDom<HTMLSpanElement>(contactItem, '.contact-name');
     if (contactName.textContent === oldName) {
       contactName.textContent = newName;
       contactList.prepend(contactItem);
@@ -716,20 +717,19 @@ export const renameContact = (oldName: string, firstname: string, lastname: stri
       if (chatContactName.textContent === oldName) {
         refreshChatContact(contactItem as HTMLDivElement);
 
-        const messageForm = document.getElementById(`${newName}-message-form`) as HTMLFormElement;
+        const messageForm = getDomElement<HTMLFormElement>(`${newName}-message-form`);
         messageForm.classList.add('active');
       }
     }
   }
 
-  const messageList = document.getElementById(`${oldName}-message-list`) as HTMLDivElement;
+  const messageList = getDomElement<HTMLDivElement>(`${oldName}-message-list`);
   messageList.id = `${newName}-message-list`;
 
   return newName;
-};
+}
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const navigateChatBack = (): void => {
+export function navigateChatBack(): void {
   mainScreen.classList.add('active');
   chatScreen.classList.remove('active');
   mainScreen.classList.add('visible');
@@ -738,26 +738,25 @@ const navigateChatBack = (): void => {
     chatScreen.classList.remove('visible');
     chatContactName.textContent = null;
   }, 100);
-};
+}
 
-const setSkipMode = (skip: boolean): void => {
-  player.skipMode = skip;
+function setSkipMode(skip: boolean): void {
+  state.gameState.skipMode = skip;
 
   if (skip) {
     accessibilitySkip.classList.add('on');
   } else {
     accessibilitySkip.classList.remove('on');
   }
-};
+}
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const toggleSkipMode = (): void => {
-  setSkipMode(!player.skipMode);
-};
+export function toggleSkipMode(): void {
+  setSkipMode(!state.gameState.skipMode);
+}
 
-const toggleContactVisibility = (name: string, show: boolean): void => {
+function toggleContactVisibility(name: string, show: boolean): void {
   for (const contactItem of contactList.children) {
-    const contactName = (contactItem.querySelector('.contact-name') as HTMLDivElement).textContent;
+    const contactName = queryDom<HTMLSpanElement>(contactItem, '.contact-name').textContent;
     if (contactName === name) {
       if (show) {
         contactItem.classList.remove('hidden');
@@ -766,9 +765,15 @@ const toggleContactVisibility = (name: string, show: boolean): void => {
       }
     }
   }
-};
+}
 
-const setupListeners = (): void => {
+export function refreshMessageSpeedSettingText(): void {
+  const option = MESSAGE_SPEED_OPTIONS.find((option) => option.value === state.settingsState.messageSpeed);
+
+  messageSpeedSetting.textContent = option?.label ?? 'Unknown';
+}
+
+function setupListeners(): void {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       hideImageOverlay();
@@ -783,7 +788,7 @@ const setupListeners = (): void => {
 
       const activeContactName = chatContactName.textContent;
       if (activeContactName) {
-        const currentChoiceData = player.currentChoiceMap.get(activeContactName);
+        const currentChoiceData = state.gameState.currentChoiceMap.get(activeContactName);
         if (!currentChoiceData) {
           getActiveMessageSend()?.click();
         }
@@ -805,10 +810,30 @@ const setupListeners = (): void => {
     }
   });
 
-  accessibilityCheckbox.addEventListener('change', () => {
-    player.accessibility = accessibilityCheckbox.checked;
+  messageSpeedSetting.addEventListener('click', () => {
+    const currentIndex = MESSAGE_SPEED_OPTIONS.findIndex((option) => option.value === state.settingsState.messageSpeed);
 
-    if (player.accessibility) {
+    const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % MESSAGE_SPEED_OPTIONS.length;
+    const nextOption = MESSAGE_SPEED_OPTIONS[nextIndex];
+
+    if (!nextOption) {
+      throw new Error(`Invalid message speed index: ${nextIndex}`);
+    }
+
+    state.settingsState.messageSpeed = nextOption.value;
+
+    refreshMessageSpeedSettingText();
+  });
+
+  darkModeCheckbox.addEventListener('change', () => {
+    state.settingsState.darkMode = darkModeCheckbox.checked;
+    document.documentElement.dataset.theme = state.settingsState.darkMode ? 'dark' : 'light';
+  });
+
+  accessibilityCheckbox.addEventListener('change', () => {
+    state.settingsState.accessibility = accessibilityCheckbox.checked;
+
+    if (state.settingsState.accessibility) {
       accessibilityControls.classList.add('visible');
     } else {
       accessibilityControls.classList.remove('visible');
@@ -816,25 +841,49 @@ const setupListeners = (): void => {
   });
 
   relativeTimestampCheckbox.addEventListener('change', () => {
-    player.relativeTimestamp = relativeTimestampCheckbox.checked;
+    state.settingsState.relativeTimestamp = relativeTimestampCheckbox.checked;
     updateTimestamps();
   });
 
   tutorialCheckbox.addEventListener('change', () => {
-    player.showTutorial = tutorialCheckbox.checked;
-    toggleContactVisibility('Tutorial Guide', player.showTutorial);
+    state.settingsState.showTutorial = tutorialCheckbox.checked;
+    toggleContactVisibility('Tutorial Guide', state.settingsState.showTutorial);
   });
 
   unitTestsCheckbox.addEventListener('change', () => {
-    player.showUnitTests = unitTestsCheckbox.checked;
-    toggleContactVisibility('Jane Doe', player.showUnitTests);
-    toggleContactVisibility('Sarah Smith', player.showUnitTests);
+    state.settingsState.showUnitTests = unitTestsCheckbox.checked;
+    toggleContactVisibility('Jane Doe', state.settingsState.showUnitTests);
+    toggleContactVisibility('Sarah Smith', state.settingsState.showUnitTests);
   });
 
+  settingsBackButton.addEventListener('click', navigateSettingsBack);
+  chatBackButton.addEventListener('click', navigateChatBack);
+
+  accessibilityChoiceUp.addEventListener('click', () => {
+    choiceChange(false);
+  });
+
+  accessibilityChoiceDown.addEventListener('click', () => {
+    choiceChange(true);
+  });
+
+  accessibilitySkip.addEventListener('click', () => {
+    toggleSkipMode();
+  });
+
+  imageOverlayContainer.addEventListener('click', hideImageOverlay);
+
+  const videoCloseButton = queryDom<HTMLButtonElement>(document, '#video-overlay-container .close-button');
+
+  videoCloseButton.addEventListener('click', hideVideoOverlay);
+
+  darkModeCheckbox.checked = state.settingsState.darkMode;
+  darkModeCheckbox.dispatchEvent(new Event('change'));
+
   accessibilityCheckbox.checked = isMobile();
-  relativeTimestampCheckbox.checked = player.relativeTimestamp;
-  tutorialCheckbox.checked = player.showTutorial;
-  unitTestsCheckbox.checked = player.showUnitTests;
+  relativeTimestampCheckbox.checked = state.settingsState.relativeTimestamp;
+  tutorialCheckbox.checked = state.settingsState.showTutorial;
+  unitTestsCheckbox.checked = state.settingsState.showUnitTests;
   accessibilityCheckbox.dispatchEvent(new Event('change'));
   relativeTimestampCheckbox.dispatchEvent(new Event('change'));
   tutorialCheckbox.dispatchEvent(new Event('change'));
@@ -850,18 +899,23 @@ const setupListeners = (): void => {
     }, 100);
   });
 
-  const statusBar = document.querySelector('.status-bar') as HTMLDivElement;
+  const statusBar = queryDom<HTMLDivElement>(document, '.status-bar');
   statusBar.addEventListener('click', () => {
-    console.log(JSON.stringify(player, null, 2));
+    consoleLogColor(state);
   });
-};
+}
 
-const initialize = (): void => {
+export function initialize(): void {
   addContact('System', 'Messages', 'resources/system-messages.png');
-  addMessage('System Messages', 'received', player.date, `Hello!`);
-  addMessage('System Messages', 'received', player.date, `Don't forget to check out the tutorial if you're new!`);
+  addMessage('System Messages', 'received', state.gameState.date, `Hello!`);
+  addMessage(
+    'System Messages',
+    'received',
+    state.gameState.date,
+    `Don't forget to check out the tutorial if you're new!`,
+  );
 
   document.addEventListener('DOMContentLoaded', setupListeners);
-};
 
-initialize();
+  refreshMessageSpeedSettingText();
+}

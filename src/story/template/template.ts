@@ -1,7 +1,8 @@
-/* eslint-disable no-undef, @typescript-eslint/explicit-function-return-type */
-(async () => {
+import { contact, waitFor, activeContactName, timestamp, textLeft } from '../../api/api';
+
+export const template = async (): Promise<void> => {
   // 1. Add Contact(s)
-  const TemplateStarter = contact('Template', 'Starter', 'story/template/images/sample.png');
+  const TemplateStarter = contact('Template', 'Starter', 'src/story/template/images/sample.png');
 
   // 2. (Optional) Wait for specific conditions (such as flags, etc), or when the player enters into this person's chat
   //await waitFor(() => hasFlag('test-flag'));
@@ -16,4 +17,4 @@
   // 5. Start the story/chapter
 
   await textLeft(`Hello! You can start adding stuff here.`, TemplateStarter);
-})();
+};

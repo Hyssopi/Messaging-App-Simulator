@@ -1,38 +1,111 @@
+@font-face {
+  font-family: 'Noto Color Emoji';
+  src: url('../../fonts/NotoColorEmoji-Regular.ttf') format('truetype');
+}
+
 :root {
+  color-scheme: light;
+
   --parent-container-width: 86vw;
   --messages-app-component-border-width: 1px;
   --status-bar-height: 40px;
   --chat-header-height: 80px;
   --message-form-height: 40px;
   --message-form-bottom: 16px;
+
+  --color-page-background: #e5e5ea;
+  --color-surface: #ffffff;
+  --color-surface-secondary: #f9f9f9;
+  --color-surface-tertiary: #fcfcfc;
+  --color-surface-hover: #f5f5f5;
+  --color-text-primary: #000000;
+  --color-text-heading: #333333;
+  --color-text-secondary: #858589;
+  --color-text-tertiary: #555555;
+  --color-text-disabled: #808080;
+  --color-accent: #007aff;
+  --color-accent-hover: #004bc5;
+  --color-danger: #ff0000;
+  --color-warning: #ffff00;
+  --color-border: #e0e0e8;
+  --color-border-strong: #d9d9d9;
+  --color-input-border: #cccccc;
+  --color-toggle-track: #e9e9eb;
+  --color-message-received: #e9e9ea;
+  --color-message-received-border: #d9d9d9;
+  --color-badge-border: #ffffff;
+  --color-on-accent: #ffffff;
+  --color-typing-dot: #9e9ea1;
+
+  --color-surface-translucent: rgba(255, 255, 255, 0.7);
+  --color-notification-translucent: rgba(255, 255, 255, 0.8);
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-shadow-subtle: rgba(0, 0, 0, 0.1);
+  --color-shadow: rgba(0, 0, 0, 0.2);
 }
 
-@font-face {
-  font-family: 'Noto Color Emoji';
-  src: url('../fonts/NotoColorEmoji-Regular.ttf') format('truetype');
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-page-background: #1c1c1e;
+  --color-surface: #000000;
+  --color-surface-secondary: #1c1c1e;
+  --color-surface-tertiary: #1c1c1e;
+  --color-surface-hover: #2c2c2e;
+  --color-text-primary: #f5f5f7;
+  --color-text-heading: #f5f5f7;
+  --color-text-secondary: #98989d;
+  --color-text-tertiary: #8e8e93;
+  --color-text-disabled: #8e8e93;
+  --color-accent: #0a84ff;
+  --color-accent-hover: #409cff;
+  --color-danger: #ff453a;
+  --color-warning: #ffd60a;
+  --color-border: #38383a;
+  --color-border-strong: #48484a;
+  --color-input-border: #545458;
+  --color-toggle-track: #39393d;
+  --color-message-received: #2c2c2e;
+  --color-message-received-border: #48484a;
+  --color-badge-border: #000000;
+  --color-on-accent: #ffffff;
+  --color-typing-dot: #8e8e93;
+
+  --color-surface-translucent: rgba(44, 44, 46, 0.78);
+  --color-notification-translucent: rgba(44, 44, 46, 0.88);
+  --color-overlay: rgba(0, 0, 0, 0.65);
+  --color-shadow-subtle: rgba(0, 0, 0, 0.35);
+  --color-shadow: rgba(0, 0, 0, 0.55);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   width: var(--parent-container-width);
   overflow: hidden;
-  background-color: #E5E5EA;
+  background-color: var(--color-page-background);
   margin: 0 auto;
+  color: var(--color-text-primary);
 }
 
 .messages-app-component {
   overflow: hidden;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   border-radius: 40px;
-  border: var(--messages-app-component-border-width) solid grey;
+  border: var(--messages-app-component-border-width) solid var(--color-text-disabled);
 }
 
 button:disabled {
-  color: grey;
+  color: var(--color-text-disabled);
   opacity: 0.5;
 }
 
 .phone-container {
-  background-color: white;
+  background-color: var(--color-surface);
   clip-path: inset(0px round 40px);
 }
 
@@ -67,7 +140,7 @@ button:disabled {
 }
 
 #battery.low {
-  color: red;
+  color: var(--color-danger);
 }
 
 .screen-container {
@@ -75,8 +148,12 @@ button:disabled {
 }
 
 .screen {
+  position: relative;
   width: 100%;
-  height: calc(100dvh - var(--messages-app-component-border-width) - var(--messages-app-component-border-width) - var(--status-bar-height));
+  height: calc(
+    100dvh - var(--messages-app-component-border-width) - var(--messages-app-component-border-width) -
+      var(--status-bar-height)
+  );
   display: none;
   flex-direction: column;
 }
@@ -98,7 +175,6 @@ button:disabled {
 
 #settings-screen {
   user-select: none;
-  background-color: #FCFCFC;
 }
 
 #settings-screen.active {
@@ -113,13 +189,13 @@ button:disabled {
 .back-button {
   display: flex;
   background: none;
-  color: #007AFF;
+  color: var(--color-accent);
   cursor: pointer;
   border: none;
 }
 
 .back-button:hover {
-  color: #004BC5;
+  color: var(--color-accent-hover);
 }
 
 #settings-list {
@@ -127,8 +203,8 @@ button:disabled {
 }
 
 .settings-group {
-  border-top: 1px solid #E0E0E8;
-  border-bottom: 1px solid #E0E0E8;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   padding: 0px;
   margin: 20px 0px;
 }
@@ -137,7 +213,7 @@ button:disabled {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #E0E0E8;
+  border-bottom: 1px solid var(--color-border);
   padding: 12px 15px;
 }
 
@@ -150,7 +226,7 @@ button:disabled {
 }
 
 .setting-item-detail-text {
-  color: #858589;
+  color: var(--color-text-secondary);
 }
 
 .with-right-arrow::after {
@@ -167,7 +243,7 @@ button:disabled {
   height: 31px;
   position: relative;
   appearance: none;
-  background: #E9E9EB;
+  background: var(--color-toggle-track);
   cursor: pointer;
   border-radius: 31px;
 }
@@ -179,14 +255,14 @@ button:disabled {
   position: absolute;
   top: 2px;
   left: 2px;
-  background: #FFFFFF;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  background: var(--color-surface);
+  box-shadow: 0 1px 2px var(--color-shadow);
   transition: left 0.3s;
   border-radius: 50%;
 }
 
 .toggle:checked {
-  background: #007AFF;
+  background: var(--color-accent);
 }
 
 .toggle:checked::after {
@@ -206,13 +282,13 @@ button:disabled {
   min-height: 50px;
   display: flex;
   align-items: center;
-  background-color: #F9F9F9;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-surface-secondary);
+  box-shadow: 0 1px 5px var(--color-shadow-subtle);
 }
 
 #main-header-edit {
   font-size: 16px;
-  color: #007AFF;
+  color: var(--color-accent);
   cursor: pointer;
   padding-left: 20px;
 }
@@ -235,12 +311,12 @@ button:disabled {
   display: flex;
   align-items: center;
   cursor: pointer;
-  border-bottom: 1px solid #E0E0E8;
+  border-bottom: 1px solid var(--color-border);
   padding: 15px 20px;
 }
 
 .contact-item:hover {
-  background-color: #F5F5F5;
+  background-color: var(--color-surface-hover);
 }
 
 .avatar {
@@ -254,8 +330,8 @@ button:disabled {
   font-size: 14px;
   font-weight: 600;
   object-fit: cover;
-  background-color: #007AFF;
-  color: white;
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
   border-radius: 50%;
 }
 
@@ -283,25 +359,25 @@ button:disabled {
 
 .timestamp {
   font-size: 13px;
-  color: #858589;
+  color: var(--color-text-secondary);
 }
 
 .preview {
   display: flex;
   align-items: center;
   font-size: 15px;
-  color: #858589;
+  color: var(--color-text-secondary);
 }
 
 .unread .preview {
   font-weight: 600;
-  color: black;
+  color: var(--color-text-primary);
 }
 
 .unread-indicator {
   width: 10px;
   height: 10px;
-  background-color: #007AFF;
+  background-color: var(--color-accent);
   border-radius: 50%;
   margin-right: 8px;
 }
@@ -329,6 +405,7 @@ button:disabled {
 }
 
 #chat-screen {
+  position: relative;
   animation: chatScreenSlide 0.3s ease-out reverse forwards;
 }
 
@@ -343,8 +420,8 @@ button:disabled {
   align-items: center;
   position: absolute;
   z-index: 1;
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-surface-translucent);
+  box-shadow: 0 5px 10px var(--color-shadow-subtle);
   backdrop-filter: blur(3px);
 }
 
@@ -364,11 +441,11 @@ button:disabled {
   font-size: 13px;
   user-select: none;
   pointer-events: none;
-  background-color: #007AFF;
-  color: white;
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
   box-sizing: border-box;
   border-radius: 50%;
-  border: 1.5px solid white;
+  border: 1.5px solid var(--color-badge-border);
   padding: 0px 6px;
 }
 
@@ -384,7 +461,7 @@ button:disabled {
   font-weight: 600;
   line-height: 17px;
   pointer-events: none;
-  color: #333333;
+  color: var(--color-text-heading);
 }
 
 .chat-header-contact .avatar {
@@ -416,15 +493,15 @@ button:disabled {
 .accessibility-button {
   display: flex;
   align-self: center;
-  background-color: #007AFF;
-  color: white;
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
   cursor: pointer;
   border-radius: 20px;
   border: none;
 }
 
 .accessibility-button:hover {
-  background-color: #004BC5;
+  background-color: var(--color-accent-hover);
 }
 
 .accessibility-choice-button {
@@ -436,7 +513,7 @@ button:disabled {
 }
 
 #accessibility-skip-button.on {
-  color: yellow;
+  color: var(--color-warning);
 }
 
 #message-lists {
@@ -468,6 +545,7 @@ button:disabled {
 }
 
 .message-bubble {
+  position: relative;
   max-width: 75%;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -501,27 +579,27 @@ button:disabled {
 .message-bubble.received.last-message::before,
 .message-bubble.received.last-message::after {
   left: -10px;
-  background-color: #E9E9EA;
+  background-color: var(--color-message-received);
   border-bottom-right-radius: 7px;
-  border-bottom: 1px solid #D9D9D9;
+  border-bottom: 1px solid var(--color-message-received-border);
 }
 
 .message-bubble.received.last-message::after {
   left: -15px;
-  background-color: white;
+  background-color: var(--color-surface);
   border-bottom-right-radius: 20px;
 }
 
 .message-bubble.sent.last-message::before,
 .message-bubble.sent.last-message::after {
   right: -10px;
-  background-color: #007AFF;
+  background-color: var(--color-accent);
   border-bottom-left-radius: 5px;
 }
 
 .message-bubble.sent.last-message::after {
   right: -14px;
-  background-color: white;
+  background-color: var(--color-surface);
   border-bottom-left-radius: 20px;
 }
 
@@ -530,7 +608,7 @@ button:disabled {
 }
 
 .message-bubble:has(.message-media) {
-  background-color: white;
+  background-color: var(--color-surface);
   border: none;
   padding: 0px;
 }
@@ -552,14 +630,14 @@ button:disabled {
 
 .received {
   align-self: flex-start;
-  background-color: #E9E9EA;
-  border: 1px solid #D9D9D9;
+  background-color: var(--color-message-received);
+  border: 1px solid var(--color-message-received-border);
 }
 
 .sent {
   align-self: flex-end;
-  background-color: #007AFF;
-  color: white;
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
 }
 
 @keyframes popIn {
@@ -584,9 +662,9 @@ button:disabled {
   font-family: 'Noto Color Emoji', sans-serif;
   font-size: 18px;
   animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.27) forwards;
-  background-color: white;
+  background-color: var(--color-surface);
   border-radius: 50%;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px var(--color-shadow);
 }
 
 .message-bubble.received > .emoji-reaction {
@@ -600,7 +678,7 @@ button:disabled {
 .chat-timestamp {
   text-align: center;
   font-size: 13px;
-  color: #858589;
+  color: var(--color-text-secondary);
   margin: 8px 0px;
 }
 
@@ -621,7 +699,9 @@ button:disabled {
 }
 
 @keyframes blink {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     opacity: 0.4;
     transform: scale(1);
   }
@@ -635,7 +715,7 @@ button:disabled {
   width: 8px;
   height: 8px;
   animation: blink 1s infinite;
-  background-color: #9E9EA1;
+  background-color: var(--color-typing-dot);
   border-radius: 50%;
 }
 
@@ -664,11 +744,12 @@ button:disabled {
 .message-input {
   flex-grow: 1;
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-surface-translucent);
+  box-shadow: 0 0 10px var(--color-shadow-subtle);
   backdrop-filter: blur(4px);
-  border: 1px solid #CCCCCC;
+  border: 1px solid var(--color-input-border);
   padding: 10px 60px 10px 16px;
+  color: var(--color-text-primary);
 }
 
 .message-input:focus {
@@ -676,7 +757,7 @@ button:disabled {
 }
 
 .message-input.choice {
-  border: 3px solid yellow;
+  border: 3px solid var(--color-warning);
 }
 
 .message-send {
@@ -684,8 +765,8 @@ button:disabled {
   align-self: center;
   position: absolute;
   right: 12px;
-  background-color: #007AFF;
-  color: white;
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
   cursor: pointer;
   border-radius: 20px;
   border: none;
@@ -693,7 +774,7 @@ button:disabled {
 }
 
 .message-send:hover {
-  background-color: #004BC5;
+  background-color: var(--color-accent-hover);
 }
 
 .overlay-container {
@@ -704,7 +785,7 @@ button:disabled {
   right: 0;
   bottom: 0;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--color-overlay);
 }
 
 .overlay-container.active {
@@ -727,8 +808,8 @@ button:disabled {
   position: absolute;
   top: 1%;
   right: 1%;
-  background-color: #007AFF;
-  color: white;
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
   cursor: pointer;
   border-radius: 15px;
   border: none;
@@ -736,7 +817,7 @@ button:disabled {
 }
 
 .close-button:hover {
-  background-color: #004BC5;
+  background-color: var(--color-accent-hover);
 }
 
 .close-button span {
@@ -761,11 +842,13 @@ button:disabled {
   display: flex;
   align-items: center;
   pointer-events: auto;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--color-notification-translucent);
   opacity: 0;
   transform: translateY(-100px);
-  transition: opacity 0.5s ease-in-out, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transition:
+    opacity 0.5s ease-in-out,
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 0 20px var(--color-shadow);
   backdrop-filter: blur(7px);
   border-radius: 15px;
   padding: 10px 15px;
@@ -793,13 +876,13 @@ button:disabled {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: #858589;
+  color: var(--color-text-secondary);
 }
 
 .notification-name {
   font-size: 14px;
   font-weight: 600;
-  color: #333333;
+  color: var(--color-text-heading);
 }
 
 .notification-message {
@@ -808,5 +891,5 @@ button:disabled {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #555555;
+  color: var(--color-text-tertiary);
 }
