@@ -1,3 +1,4 @@
+// TODO: This doesn't work with Set. Remove in the future.
 export function consoleLogColor(value: unknown): void {
   const json = JSON.stringify(value, null, 2);
 
